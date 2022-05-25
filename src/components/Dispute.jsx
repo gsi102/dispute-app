@@ -46,9 +46,9 @@ const Dispute = function () {
     setShowedMessages(searchedMessages);
   };
 
-  const showMessages = useMemo(() => {
-    return setShowedMessages(disputeMessages);
-  }, [disputeMessages]);
+  // const showMessages = useMemo(() => {
+  //   return setShowedMessages(disputeMessages);
+  // }, [disputeMessages]);
 
   return (
     <div className="dispute">
