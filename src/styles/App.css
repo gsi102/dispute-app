@@ -40,11 +40,6 @@
   border: 2px solid purple;
 }
 
-.dispute-chat {
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
 .dispute-chat-form {
   position: absolute;
   display: flex;
@@ -106,4 +101,9 @@
   width: 60%;
   height: 100%;
   resize: none;
+}
+
+.chat {
+  overflow-x: hidden;
+  overflow-y: scroll;
 }

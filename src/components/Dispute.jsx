@@ -1,63 +1,28 @@
-import React, { useState, useMemo, useRef, useEffect } from "react";
+import React, { useState, useMemo } from "react";
 import SearchField from "./SearchField.jsx";
-import DisputeChat from "./DisputeChat.jsx";
+import Chat from "./Chat.jsx";
 import SendMessageForm from "./SendMessageForm.jsx";
 
-const Dispute = function () {
-  const [disputeMessages, setDisputeMessages] = useState([
-    {
-      date: new Date(),
-      id: 0,
-      name: "Participant0",
-      text: "Text your arguments below",
-    },
-  ]);
+const Dispute = function (props) {
+  // Search and display specific dispute messages
+  const [inputValue, setInputValue] = useState("");
 
-  const sendDisputeMessage = (e, inputDisputMessage, theRef) => {
-    e.preventDefault();
-    if (inputDisputMessage) {
-      let newDisputMessage = {
-        date: new Date(),
-        id: disputeMessages.length + 1,
-        name: "participantName",
-        text: inputDisputMessage,
-      };
-      setDisputeMessages([...disputeMessages, newDisputMessage]);
-    }
+  const filterMessages = useMemo(() => {
+    return props.disputeMessages.filter((obj) => obj.text.includes(inputValue));
+  }, [inputValue, props.disputeMessages]);
 
-    theRef.focus();
+  const searchFunc = (newInputValue) => {
+    setInputValue(newInputValue);
   };
-
-  /*  ---------------------------------------- */
-  // const [inputSearch, setInputSearch] = useState("");
-
-  // const filterMessages = useMemo(() => {
-  //   console.log("memo");
-  //   return disputeMessages.filter((obj) =>
-  //     obj.text.includes(inputSearch)
-  //   );
-  // }, [inputSearch, disputeMessages]);
-
-  /*  ---------------------------------------- */
-
-  const [showedMessages, setShowedMessages] = useState(disputeMessages);
-
-  const searchMessages = (searchedMessages) => {
-    setShowedMessages(searchedMessages);
-  };
-
-  const showMessages = useMemo(() => {
-    return setShowedMessages(disputeMessages);
-  }, [disputeMessages]);
 
   return (
     <div className="dispute">
       <SearchField
-        disputeMessages={disputeMessages}
-        searchMessages={searchMessages}
+        disputeMessages={props.disputeMessages}
+        searchFunc={searchFunc}
       />
-      <DisputeChat messages={showedMessages} />
-      <SendMessageForm sendFunc={sendDisputeMessage} />
+      <Chat messages={filterMessages} />
+      <SendMessageForm sendFunc={props.sendMessage} flag={props.flag} />
     </div>
   );
 };

@@ -3,24 +3,17 @@ import React, { useState, useMemo, useEffect } from "react";
 const SearchField = (props) => {
   const [inputSearch, setInputSearch] = useState("");
 
-  const filterMessages = useMemo(() => {
-    return props.disputeMessages.filter((obj) =>
-      obj.text.includes(inputSearch)
-    );
-  }, [inputSearch]);
-
-  const test = useMemo(() => {
-    return props.searchMessages(filterMessages);
-  }, [filterMessages]);
-
-  // props.showMessages(filterMessages);
+  const changeFunc = (e) => {
+    setInputSearch(e.target.value);
+    props.searchFunc(e.target.value);
+  };
 
   return (
     <div>
       <input
         value={inputSearch}
         type="text"
-        onChange={(e) => setInputSearch(e.target.value)}
+        onChange={changeFunc}
         placeholder="Поиск"
       />
     </div>

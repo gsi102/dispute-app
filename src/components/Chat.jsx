@@ -3,7 +3,7 @@ import MessageItem from "./MessageItem.jsx";
 
 const SpectatorChat = (props) => {
   return (
-    <div className="dispute-chat">
+    <div className="chat">
       {props.messages.map((message) => (
         <MessageItem dispMessage={message} key={message.id} />
       ))}

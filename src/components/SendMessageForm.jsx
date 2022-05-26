@@ -7,7 +7,7 @@ const SendMessageForm = function (props) {
   const inputRef = useRef(null);
 
   const funcQueue = (e) => {
-    props.sendFunc(e, inputMessage, inputRef.current);
+    props.sendFunc(e, inputMessage, inputRef.current, props.flag);
     setInputMessage("");
   };
 
