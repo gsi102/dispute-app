@@ -1,10 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import Chat from "./Chat.jsx";
 import SendMessageForm from "./SendMessageForm.jsx";
 
 const Spectators = function (props) {
-  const flagSpectators = "spectators";
-
   return (
     <div className="spectators">
       <Chat messages={props.specMessages} />

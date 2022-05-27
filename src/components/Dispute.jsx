@@ -8,7 +8,10 @@ const Dispute = function (props) {
   const [inputValue, setInputValue] = useState("");
 
   const filterMessages = useMemo(() => {
-    return props.disputeMessages.filter((obj) => obj.text.includes(inputValue));
+    inputValue.toString();
+    return props.disputeMessages.filter((obj) =>
+      obj.text.toLowerCase().includes(inputValue.toLowerCase())
+    );
   }, [inputValue, props.disputeMessages]);
 
   const searchFunc = (newInputValue) => {
@@ -21,7 +24,7 @@ const Dispute = function (props) {
         disputeMessages={props.disputeMessages}
         searchFunc={searchFunc}
       />
-      <Chat messages={filterMessages} />
+      <Chat messages={filterMessages} flag={props.flag} />
       <SendMessageForm sendFunc={props.sendMessage} flag={props.flag} />
     </div>
   );

@@ -33,6 +33,7 @@ function App() {
   // Send message function after click on the button
   const sendMessage = (e, inputMessage, theRef, flag) => {
     e.preventDefault();
+    inputMessage.toString();
 
     if (inputMessage) {
       let newMessage = {
