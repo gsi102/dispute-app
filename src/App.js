@@ -1,74 +1,28 @@
-import React, { useState } from "react";
-import Participants from "./components/Participants.jsx";
-import Dispute from "./components/Dispute.jsx";
-import Spectators from "./components/Spectators.jsx";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+
+import Layout from "./components/Layout.jsx";
+import HomePage from "./components/HomePage.jsx";
+import Login from "./components/Login.jsx";
+import Registration from "./components/Registration.jsx";
+import NotFoundPage from "./components/NotFoundPage.jsx";
+import DebatesWindow from "./components/DebatesWindow.jsx";
 
 import "./styles/App.css";
 
 function App() {
-  const [disputeMessages, setDisputeMessages] = useState([
-    {
-      date: new Date(),
-      id: 0,
-      name: "Participant0",
-      text: "Text your arguments below",
-    },
-  ]);
-
-  const [specMessages, setSpecMessages] = useState([
-    {
-      date: new Date(),
-      id: 1,
-      name: "Admin",
-      text: "Welcome to spec chat!",
-    },
-  ]);
-
-  // Source for message id
-  const flagSource = {
-    disputeChat: "dispute",
-    spectatorChat: "spectator",
-  };
-
-  // Send message function after click on the button
-  const sendMessage = (e, inputMessage, theRef, flag) => {
-    e.preventDefault();
-    inputMessage.toString();
-
-    if (inputMessage) {
-      let newMessage = {
-        date: new Date(),
-        id: 0,
-        name: "someName",
-        text: inputMessage,
-      };
-
-      if (flag === "dispute") {
-        setDisputeMessages([...disputeMessages, newMessage]);
-        newMessage.id = flag + "_messageId_" + disputeMessages.length;
-      } else {
-        setSpecMessages([...specMessages, newMessage]);
-        newMessage.id = flag + "_messageId_" + specMessages.length;
-      }
-    }
-
-    theRef.focus();
-  };
-
   return (
-    <div className="App">
-      <Participants />
-      <Dispute
-        disputeMessages={disputeMessages}
-        sendMessage={sendMessage}
-        flag={flagSource.disputeChat}
-      />
-      <Spectators
-        specMessages={specMessages}
-        sendMessage={sendMessage}
-        flag={flagSource.spectatorChat}
-      />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<HomePage />} />
+          <Route path="DebatesWindow" element={<DebatesWindow />} />
+          <Route path="login" element={<Login />} />
+          <Route path="registration" element={<Registration />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </>
   );
 }
 

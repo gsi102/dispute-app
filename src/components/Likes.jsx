@@ -4,7 +4,7 @@ const Likes = () => {
   const [like, setLike] = useState(false);
   const [likeCounter, setLikeCounter] = useState(0);
 
-  const callback = () => {
+  const likes = () => {
     if (like) {
       setLikeCounter(0);
       setLike(false);
@@ -14,7 +14,7 @@ const Likes = () => {
     }
   };
 
-  return <span onClick={callback}>heart{likeCounter}</span>;
+  return <span onClick={likes}>heart{likeCounter}</span>;
 };
 
 export default Likes;

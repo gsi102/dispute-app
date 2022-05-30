@@ -5,7 +5,7 @@ const MessageItem = (props) => {
   return (
     <div>
       {props.dispMessage.name}: {props.dispMessage.text}&nbsp;
-      {props.flag === "dispute" ? <Likes /> : null}
+      {props.flag === "dispute" && <Likes />}
       <div>
         {props.dispMessage.date.getHours()}:
         {(props.dispMessage.date.getMinutes() < 10 ? "0" : "") +

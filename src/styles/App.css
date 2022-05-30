@@ -9,12 +9,75 @@
   justify-content: center;
 }
 
-.App {
-  width: 1600px;
-  height: 400px;
-  display: flex;
-  justify-content: center;
+/* COMMON STYLES */
+
+.send-message-btn {
+  height: 100%;
 }
+
+.input-chat-message {
+  width: 60%;
+  height: 100%;
+  resize: none;
+}
+
+.chat {
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+/* HEADER BLOCK */
+
+.header {
+  position: relative;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  width: 100vw;
+  padding: 10px 50px;
+  background-color: lightblue;
+}
+
+.header-block {
+  position: relative;
+  display: flex;
+  width: 10%;
+  justify-content: space-between;
+}
+
+/* LAYOUT BLOCK */
+
+.outlet {
+  width: 90%;
+  margin: 0 0 0 10%;
+  height: 100vh;
+}
+
+/* LEFTSIDE BLOCK */
+
+.leftside {
+  display: flex;
+  position: absolute;
+  width: 10%;
+  height: 100vh;
+  background-color: blanchedalmond;
+}
+
+/* DEBATES WINDOW*/
+
+.debates-window {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 400px;
+}
+
+/* Participants block */
 
 .participants {
   width: 20%;
@@ -60,6 +123,7 @@
 }
 
 /* Viewers chat block */
+
 .spectators {
   position: relative;
   display: flex;
@@ -92,18 +156,14 @@
   width: 20%;
 }
 
-/* Styles for common Components */
-.send-message-btn {
-  height: 100%;
-}
+/* FOOTER BLOCK */
 
-.input-chat-message {
-  width: 60%;
-  height: 100%;
-  resize: none;
-}
-
-.chat {
-  overflow-x: hidden;
-  overflow-y: scroll;
+.footer {
+  position: relative;
+  display: flex;
+  bottom: 0;
+  justify-content: center;
+  height: 100px;
+  width: 100vw;
+  background-color: lightslategray;
 }
