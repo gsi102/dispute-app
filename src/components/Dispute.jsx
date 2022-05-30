@@ -3,7 +3,7 @@ import SearchField from "./SearchField.jsx";
 import Chat from "./Chat.jsx";
 import SendMessageForm from "./SendMessageForm.jsx";
 
-const Dispute = function (props) {
+const Dispute = function(props) {
   // Search and display specific dispute messages
   const [inputValue, setInputValue] = useState("");
 
