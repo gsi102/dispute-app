@@ -1,6 +1,6 @@
 import React from "react";
 
-const Participants = function ({}) {
+const Participants = () => {
   return (
     <div className="participants">
       <div className="participant-item" />

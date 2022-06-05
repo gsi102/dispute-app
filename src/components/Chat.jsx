@@ -5,7 +5,12 @@ const SpectatorChat = (props) => {
   return (
     <div className="chat">
       {props.messages.map((message) => (
-        <MessageItem dispMessage={message} flag={props.flag} key={message.id} />
+        <MessageItem
+          deleteFunc={props.deleteFunc}
+          dispMessage={message}
+          flag={props.flag}
+          key={message.id}
+        />
       ))}
     </div>
   );

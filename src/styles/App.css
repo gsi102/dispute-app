@@ -92,6 +92,14 @@
   border: 1px solid black;
 }
 
+/* Common Chat styles */
+
+.message-item,
+.message-name-and-text {
+  display: flex;
+  justify-content: space-between;
+}
+
 /* Dispute block */
 
 .dispute {
