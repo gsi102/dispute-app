@@ -1,17 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 
 const SearchField = (props) => {
-  const [inputSearch, setInputSearch] = useState("");
-
   const changeFunc = (e) => {
-    setInputSearch(e.target.value);
+    props.setSearchInput(e.target.value);
     props.searchFunc(e.target.value);
   };
 
   return (
     <div>
       <input
-        value={inputSearch}
+        value={props.searchInput}
         type="text"
         onChange={changeFunc}
         placeholder="Поиск"
