@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { searchMessages } from "../store/reducers/messagesSlice.js";
 
-const SearchField = (props) => {
+const SearchField = () => {
+  const [inputValue, setInputValue] = useState("");
+  const dispatch = useDispatch();
+
   const changeFunc = (e) => {
-    props.setSearchInput(e.target.value);
-    props.searchFunc(e.target.value);
+    setInputValue(e.target.value);
+    const targetValue = e.target.value;
+    dispatch(searchMessages({ targetValue }));
   };
 
   return (
     <div>
       <input
-        value={props.searchInput}
+        value={inputValue}
         type="text"
         onChange={changeFunc}
         placeholder="Поиск"

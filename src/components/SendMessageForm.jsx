@@ -1,32 +1,32 @@
 import React, { useRef, useState } from "react";
 import MessageInput from "./UI/inputs/MessageInput.jsx";
 import MessageButton from "./UI/buttons/MessageButton.jsx";
+import { useDispatch } from "react-redux";
+import { sendMessage } from "../store/reducers/messagesSlice.js";
 
-const SendMessageForm = function (props) {
-  const [inputMessage, setInputMessage] = useState("");
+const SendMessageForm = function(props) {
+  const [messageInput, setMessageInput] = useState("");
   const inputRef = useRef(null);
+  const dispatch = useDispatch();
+  const flag = props.flag;
 
   const funcQueue = (e) => {
-    props.sendFunc(e, inputMessage, inputRef.current, props.flag);
-    setInputMessage("");
-  };
-
-  const sendOnKey = (e) => {
-    if (e.key === "Enter") {
-      funcQueue(e);
-    }
+    e.preventDefault(); //remove when button changes to div
+    dispatch(sendMessage({ messageInput, flag }));
+    inputRef.current.focus();
+    setMessageInput("");
   };
 
   return (
     <div className="dispute-chat-form">
       <MessageInput
-        value={inputMessage}
+        value={messageInput}
         ref={inputRef}
         className="input-chat-message"
         type="text"
         placeholder="your text"
-        onChange={(e) => setInputMessage(e.target.value)}
-        onKeyDown={sendOnKey}
+        onChange={(e) => setMessageInput(e.target.value)}
+        onKeyDown={(e) => (e.key === "Enter" ? funcQueue(e) : null)}
       />
       <MessageButton className="send-message-btn" onClick={funcQueue} />
     </div>
