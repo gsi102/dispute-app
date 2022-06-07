@@ -1,13 +1,15 @@
 import React from "react";
 import Chat from "./Chat.jsx";
 import SendMessageForm from "./SendMessageForm.jsx";
+import { useSelector } from "react-redux";
 
-const Spectators = function(props) {
-  console.log("render S");
+const Spectators = function() {
+  const flagS = useSelector((state) => state.messages.flagSource.spectatorChat);
+
   return (
     <div className="spectators">
-      <Chat messages={props.specMessages} deleteFunc={props.deleteFunc} />
-      <SendMessageForm sendFunc={props.sendMessage} flag={props.flag} />
+      <Chat flag={flagS} />
+      <SendMessageForm flag={flagS} />
     </div>
   );
 };

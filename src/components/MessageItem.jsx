@@ -1,20 +1,27 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import Likes from "./Likes.jsx";
 
+import { deleteMessage } from "../store/reducers/messagesSlice.js";
+
 const MessageItem = (props) => {
+  const dispatch = useDispatch();
+
+  const funcQueue = function(e) {
+    const messageId = e.target.parentNode.getAttribute("data-message-id");
+    dispatch(deleteMessage({ messageId }));
+  };
+
   return (
-    <div className="message-item" data-message-id={props.dispMessage.id}>
+    <div className="message-item" data-message-id={props.message.id}>
       <div className="message-name-and-text">
-        {props.dispMessage.name}:{" "}
-        <div className="message-text">{props.dispMessage.text}</div>
-        &nbsp;
+        <div className="message-name">{props.message.name}:&nbsp;</div>
+        <div className="message-text">{props.message.text}</div>
       </div>
       {props.flag === "d" && <Likes />}
-      <div onClick={props.deleteFunc}>DEL</div>
+      <div onClick={funcQueue}>DEL</div>
       <div className="message-time">
-        {props.dispMessage.date.getHours()}:
-        {(props.dispMessage.date.getMinutes() < 10 ? "0" : "") +
-          props.dispMessage.date.getMinutes()}
+        {props.message.dateHh}:{props.message.dateMm}
       </div>
     </div>
   );
