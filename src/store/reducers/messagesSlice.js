@@ -1,114 +1,107 @@
-import { createSlice, current } from "@reduxjs/toolkit";
+import { createSlice, current, isDraft } from "@reduxjs/toolkit";
+import * as axios from "axios";
 
 const messagesSlice = createSlice({
   name: "messages",
   initialState: {
     // Backend, not for displaying
-    disputeMessages: [
-      {
-        date: new Date(), //non-serializable value
-        id: "d_messageId_0",
-        name: "Participant0",
-        text: "Text your arguments below",
-      },
-    ],
+    disputeMessages: [],
+    specMessages: [],
     // For searching and displaying
-    showDisputeMessages: [
-      {
-        date: new Date(), //non-serializable value
-        id: "d_messageId_0",
-        name: "Participant0",
-        text: "Text your arguments below",
-      },
-    ],
-    specMessages: [
-      {
-        date: new Date(), //non-serializable value
-        id: "s_messageId_0",
-        name: "Admin",
-        text: "Welcome to spec chat!",
-      },
-    ],
-    /* Source for message id. Very important! Used in functions: sendMessage, deleteMessage */
-    flagSource: {
-      disputeChat: "d",
-      spectatorChat: "s",
+    showMessages: {
+      disputeMessages: [],
+      specMessages: [],
+    },
+    // Source for messages id. DON'T CHANGE!
+    _flagSource: {
+      disputeChat: "disputeMessages",
+      spectatorChat: "specMessages",
+    },
+    inputSearch: {
+      body: "",
+      placeholder: "Поиск",
     },
   },
   reducers: {
+    // Messages' first load - PURE FUNCTION
+    setMessages(state, action) {
+      const flag = action.payload.flag;
+      state[flag] = [...action.payload.loadMessages];
+      state.showMessages[flag] = [...state[flag]];
+    },
     // Send message reducer
     sendMessage(state, action) {
       const messageInput = action.payload.messageInput.toString();
       const flag = action.payload.flag;
-      const isInputMessage = messageInput.replace(/\s+/g, "");
+      let date = new Date();
 
-      if (isInputMessage) {
-        let date = new Date();
-
-        function dateTransform(dateValue) {
-          return ((dateValue < 10 ? "0" : "") + dateValue).toString();
-        }
-
-        let newMessage = {
-          dateHh: dateTransform(date.getHours()),
-          dateMm: dateTransform(date.getMinutes()),
-          dateFull: date,
-          id: "",
-          name: "someName",
-          text: messageInput,
-        };
-
-        if (flag === "d") {
-          newMessage.id = flag + "_messageId_" + state.disputeMessages.length;
-          state.disputeMessages.push(newMessage);
-          state.showDisputeMessages.push(newMessage);
-        } else {
-          newMessage.id = flag + "_messageId_" + state.specMessages.length;
-          state.specMessages.push(newMessage);
-        }
-      } else {
-        alert("Your message is empty!");
+      function dateTransform(dateValue) {
+        return ((dateValue < 10 ? "0" : "") + dateValue).toString();
       }
-    },
 
+      let newMessage = {
+        dateHh: dateTransform(date.getHours()),
+        dateMm: dateTransform(date.getMinutes()),
+        dateFull: date.toString(),
+        id: "",
+        name: "someName",
+        text: messageInput,
+        deleted: false,
+      };
+
+      // Setting likes only for disputeMessages - NOT PURE
+      if (flag.search(/^[d]/) === 0) newMessage.likes = 0;
+      // Setting correct id
+      newMessage.id = flag + "_" + state[flag].length;
+      //pushing message
+      state[flag].push(newMessage);
+      state.showMessages[flag] = [...state[flag]];
+    },
+    // Delete message reducer - PURE FUNCTION
     deleteMessage(state, action) {
-      // Getting the first sign as a source and the digits as an index
       let deletedId = action.payload.messageId;
-      let flag = deletedId.match(/[^]/);
+      // Definition the target array
+      const flag = deletedId.match(/[^_]*/g);
+      // Getting an index in array of messages
       deletedId = Number(deletedId.match(/\d+/g));
 
-      if (flag[0] === "s") {
-        if (!state.specMessages[deletedId].deletedText)
-          state.specMessages[deletedId].deletedText =
-            state.specMessages[deletedId].text;
+      const element = state[flag[0]][deletedId];
+      if (!element.deletedText) element.deletedText = element.text;
+      if (!element.deleted) element.deleted = !element.deleted;
+      element.text = "Message has been deleted by moderator";
 
-        state.specMessages[deletedId].text =
-          "Message has been deleted by moderator";
-      } else {
-        if (!state.disputeMessages[deletedId].deletedText)
-          state.disputeMessages[deletedId].deletedText =
-            state.disputeMessages[deletedId].text;
-
-        state.disputeMessages[deletedId].text =
-          "Message has been deleted by moderator";
-        state.showDisputeMessages[deletedId].text =
-          "Message has been deleted by moderator";
-      }
+      state.showMessages[flag[0]] = [...state[flag[0]]];
     },
+    // Search message reducer - PURE FUNCTION
     searchMessages(state, action) {
+      state.inputSearch.body = action.payload.targetValue;
       const inputValue = action.payload.targetValue.toString().toLowerCase();
-      const filterMessages = state.disputeMessages.filter((obj) =>
-        obj.text.toLowerCase().includes(inputValue)
-      );
-      state.showDisputeMessages = filterMessages;
+      const filterTarget = action.payload.flag;
+
+      const filterFunc = function(baseState) {
+        const filterMessages = baseState.filter((obj) =>
+          obj.text.toLowerCase().includes(inputValue)
+        );
+        return filterMessages;
+      };
+
+      state.showMessages[filterTarget] = filterFunc(state[filterTarget]);
+    },
+    // Like message reducer - PURE FUNCTION
+    likeMessage(state, action) {
+      const likedId = action.payload.messageIndex;
+      const flag = action.payload.flag[0];
+      ++state[flag][likedId].likes;
     },
   },
 });
 
 export const {
+  setMessages,
   sendMessage,
   deleteMessage,
   searchMessages,
+  likeMessage,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

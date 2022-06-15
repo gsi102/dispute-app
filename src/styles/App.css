@@ -137,7 +137,6 @@
   display: flex;
   width: 30%;
   flex-direction: column;
-  justify-content: space-between;
   padding: 15px;
   border: 2px solid teal;
 }
