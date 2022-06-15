@@ -6,7 +6,7 @@ import HomePage from "./components/HomePage.jsx";
 import Login from "./components/Login.jsx";
 import Registration from "./components/Registration.jsx";
 import NotFoundPage from "./components/NotFoundPage.jsx";
-import DebatesWindow from "./components/DebatesWindow.jsx";
+import DebatesPage from "./components/DebatesPage/DebatesPage.jsx";
 
 import "./styles/App.css";
 
@@ -16,7 +16,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="DebatesWindow" element={<DebatesWindow />} />
+          <Route path="debates-page" element={<DebatesPage />} />
           <Route path="login" element={<Login />} />
           <Route path="registration" element={<Registration />} />
           <Route path="*" element={<NotFoundPage />} />
