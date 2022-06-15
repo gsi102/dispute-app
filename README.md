@@ -1,70 +1,39 @@
-# Getting Started with Create React App
+# Getting Started with Dispute App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+It's an app for practice in React Development. Main idea - online-debates. Appearance and interface blocks will be the same as on Twitch.
 
-## Available Scripts
+## Idea
 
-In the project directory, you can run:
+The app will give you the opportunity to have discussions on the Internet with strict rules and boundaries.
 
-### `npm start`
+## Roles
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+There will be four different roles for registered users: admin (leader/master for each dispute), participant (person who would have side in a discussion), spectator, and moderator (for spectators' chat).
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Only one role for unregistered user: visitor (spectator who couldn't write in the chat).
 
-### `npm test`
+## Modes
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+It could be a way to train your rhetoric skills or a real philosophical duel to find where the truth is. There will be different modes. For example:
 
-### `npm run build`
+- Mode with a short text length cap like on Twitter, where you should prove your conviction using short messages;
+- Blitz mode with a one-minute response limit;
+- Mode with random given theme, where you randomly get your side in a dispute and practice in the art of rhetoric (Ex: "What is love?" 1. It's an emotional feeling 2. It's just a chemical process in the brain);
+- "Socrates" mode which allows you to answer the opponent's question only with question;
+  ...etc.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Winner
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+There could be different voting modes:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Spectators would vote for the winner;
+- Third-party person (or some persons) would decide who wins;
+  ...etc.
 
-### `npm run eject`
+## Encouraging/Rating system
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+There could be a rating system where you would get/lose points for each dispute you won/lose.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## P.S.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+I can come up with a lot of different functions and features, but for now the main goal is to practice Development.
