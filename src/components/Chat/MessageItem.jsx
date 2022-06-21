@@ -13,7 +13,7 @@ const MessageItem = (props) => {
     <div className="message-item" data-message-id={props.message.id}>
       <div className="message-name-and-text">
         <div className="message-name">{props.message.name}:&nbsp;</div>
-        <div className="message-text">{props.message.name}</div>
+        <div className="message-text">{props.message.text}</div>
       </div>
       {props.message.likes >= 0 && !isMessageDeleted ? (
         <Likes messageId={messageId} />
