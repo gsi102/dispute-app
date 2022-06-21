@@ -9,7 +9,8 @@ const Chat = function(props) {
   const dispatch = useDispatch();
   const flag = props.flag;
   let messages = useSelector((state) => state.messages.showMessages[flag]);
-
+11
+  /* Working with server. Server is not ready.
   const firstLoadMessages = useEffect(() => {
     axios
       .get("https://social-network.samuraijs.com/api/1.0/users")
@@ -17,7 +18,7 @@ const Chat = function(props) {
         let loadMessages = [...response.data.items];
         dispatch(setMessages({ loadMessages, flag }));
       });
-  }, []);
+  }, []);*/
 
   if (messages[0]) {
     return (
