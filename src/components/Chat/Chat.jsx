@@ -9,7 +9,7 @@ const Chat = function(props) {
   const dispatch = useDispatch();
   const flag = props.flag;
   let messages = useSelector((state) => state.messages.showMessages[flag]);
-11
+
   /* Working with server. Server is not ready.
   const firstLoadMessages = useEffect(() => {
     axios
