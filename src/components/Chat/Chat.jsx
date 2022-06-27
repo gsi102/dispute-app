@@ -10,13 +10,16 @@ const Chat = function(props) {
   const flag = props.flag;
   let messages = useSelector((state) => state.messages.showMessages[flag]);
 
+  // working with server
+  const serverName = useSelector((state) => state.messages.serverName);
+  let fetchTarget = flag.match(/^(.*?)Messages/);
+  fetchTarget = fetchTarget[1].toUpperCase();
   const firstLoadMessages = useEffect(() => {
-    axios
-      .get("https://social-network.samuraijs.com/api/1.0/users")
-      .then((response) => {
-        let loadMessages = [...response.data.items];
-        dispatch(setMessages({ loadMessages, flag }));
-      });
+    // Make an async HTTP request
+    axios.get(`${serverName}/messages/${fetchTarget}`).then((response) => {
+      let fetchedMessages = [...response.data];
+      dispatch(setMessages({ fetchedMessages, flag }));
+    });
   }, []);
 
   if (messages[0]) {
