@@ -1,6 +1,6 @@
 # Getting Started with Dispute App
 
-It's an app for practice in React Development. Main idea - online-debates. Appearance and interface blocks will be the same as on Twitch.
+It's an app for practice in React Development. Main idea - online-debates. Appearance and interface blocks will be the same as on Twitch. Backend code: https://github.com/gsi102/server.git
 
 ## Idea
 
