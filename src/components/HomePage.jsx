@@ -2,7 +2,7 @@ import React from "react";
 
 const HomePage = () => {
   return (
-    <div>
+    <div className="homePage">
       <h1>Getting Started with Dispute App</h1>
       <p>
         It's an app for practice in React Development. Main idea -

@@ -1,7 +1,17 @@
+@font-face {
+  font-family: "IBM Plex Sans Condensed", sans-serif;
+  src: url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Condensed:ital,wght@0,400;0,600;1,400;1,600&display=swap");
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+body,
+html {
+  font-family: "IBM Plex Sans Condensed", sans-serif;
 }
 
 #root {
@@ -58,7 +68,6 @@
 }
 
 /* LAYOUT BLOCK */
-
 .outlet {
   width: 90%;
   margin: 0 0 0 10%;
@@ -74,6 +83,23 @@
   height: 100vh;
   background-color: white;
   box-shadow: 0 1px 5px rgb(80, 80, 80, 0.1);
+}
+
+/* HOME PAGE -TEMP STYLES */
+.homePage {
+  margin: 50px 50px;
+}
+.homePage * {
+  padding: 5px 0 5px 10px;
+}
+
+.homePage li {
+  list-style-type: none;
+}
+
+.homePage li::before {
+  content: "-";
+  padding: 0 10px 0 0px;
 }
 
 /* DEBATES WINDOW*/
