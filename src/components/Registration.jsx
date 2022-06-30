@@ -4,6 +4,7 @@ const Registrarion = () => {
   return (
     <div>
       <h1>Registration</h1>
+      <p>work in progress...</p>
     </div>
   );
 };
