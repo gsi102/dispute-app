@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import Input from "../UI/inputs/Input.jsx";
-import MessageButton from "../UI/buttons/MessageButton.jsx";
+import Button from "../UI/buttons/Button.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { sendMessage } from "../../store/reducers/messagesSlice.js";
 import axios from "axios";
@@ -69,7 +69,9 @@ const SendMessageForm = function(props) {
         onChange={(e) => setMessageInput(e.target.value)}
         onKeyDown={(e) => (e.key === "Enter" ? funcQueue() : "")}
       />
-      <MessageButton className="send-message-btn" onClick={funcQueue} />
+      <Button className="send-message-btn" onClick={funcQueue}>
+        Send
+      </Button>
     </div>
   );
 };

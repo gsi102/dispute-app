@@ -1,5 +1,4 @@
 import { createSlice, current, isDraft } from "@reduxjs/toolkit";
-import * as axios from "axios";
 
 const messagesSlice = createSlice({
   name: "messages",
