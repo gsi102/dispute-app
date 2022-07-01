@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import Input from "./UI/inputs/Input.jsx";
 import Button from "./UI/buttons/Button.jsx";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { setAuth } from "../store/reducers/usersSlice.js";
-
+import { usersAPI } from "../api/api.js";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const Login = () => {
   const [loginInput, setLoginInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
-  const serverName = useSelector((state) => state.messages.serverName);
-  const isAuth = useSelector((state) => state.users.isAuth);
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
@@ -19,18 +16,15 @@ const Login = () => {
   const prevPage = location.state ? location.state.from.pathname : "/";
 
   const logIn = async function() {
-    const userId = loginInput;
     try {
-      const response = await axios.post(`${serverName}/users/${userId}`, {
-        password: passwordInput,
-      });
-      if (response.status === 200) {
+      const status = await usersAPI.signIn(loginInput, passwordInput);
+      if (status === 200) {
         dispatch(setAuth());
         navigate(prevPage, { replace: true });
       }
-      return response.data;
     } catch (err) {
-      return console.error(err);
+      console.error(err);
+      return alert("invalid data (console)");
     }
   };
 
@@ -52,7 +46,7 @@ const Login = () => {
         placeholder="pass"
         onChange={(e) => setPasswordInput(e.target.value)}
       />
-      <Button className="login button" onClick={logIn}>
+      <Button className="login-button" onClick={logIn}>
         Login
       </Button>
     </div>

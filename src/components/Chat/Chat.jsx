@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
-import * as axios from "axios";
 import MessageItem from "./MessageItem.jsx";
 import { useSelector, useDispatch } from "react-redux";
+import { messagesAPI } from "../../api/api.js";
 import { setMessages } from "../../store/reducers/messagesSlice.js";
 
 const Chat = function(props) {
@@ -10,14 +10,9 @@ const Chat = function(props) {
   const flag = props.flag;
   let messages = useSelector((state) => state.messages.showMessages[flag]);
 
-  // working with server
-  const serverName = useSelector((state) => state.messages.serverName);
-  let fetchTarget = flag.match(/^(.*?)Messages/);
-  fetchTarget = fetchTarget[1].toUpperCase();
   const firstLoadMessages = useEffect(() => {
-    // Make an async HTTP request
-    axios.get(`${serverName}/messages/${fetchTarget}`).then((response) => {
-      let fetchedMessages = [...response.data];
+    messagesAPI.getMessages(flag).then((data) => {
+      let fetchedMessages = [...data];
       dispatch(setMessages({ fetchedMessages, flag }));
     });
   }, []);
