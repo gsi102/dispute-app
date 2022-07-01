@@ -13,7 +13,7 @@ const Header = () => {
       <div className="logo"></div>
       <div className="header-block">
         {!isAuth ? <Link to="/login">Login</Link> : ""}
-        <Link to="/registration">Registration</Link>
+        {!isAuth ? <Link to="/registration">Registration</Link> : ""}
       </div>
     </header>
   );
