@@ -1,6 +1,6 @@
-import React, { useRef } from "react";
+import React from "react";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { searchMessages } from "../../store/reducers/messagesSlice.js";
 
 const SearchField = (props) => {
