@@ -1,6 +1,5 @@
-import axios from "axios";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Likes from "../Likes.jsx";
 import { setMessages } from "../../store/reducers/messagesSlice.js";
 import { messagesAPI } from "../../api/api.js";

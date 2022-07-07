@@ -10,14 +10,17 @@ const SendMessageForm = function(props) {
   const inputRef = useRef(null);
   const dispatch = useDispatch();
   const flag = props.flag;
-  const currentState = useSelector((state) => state.messages[flag]);
-  const postfixForId = currentState.length;
+
+  const userLogin = useSelector((state) => state.users.userData.login);
+  const userID = useSelector((state) => state.users.userData.id);
 
   const sendMessage = () => {
-    messagesAPI.newMessage(flag, messageInput, postfixForId).then((data) => {
-      let fetchedMessages = [...data];
-      dispatch(setMessages({ fetchedMessages, flag }));
-    });
+    messagesAPI
+      .newMessage(flag, userID, userLogin, messageInput)
+      .then((data) => {
+        let fetchedMessages = [...data];
+        dispatch(setMessages({ fetchedMessages, flag }));
+      });
   };
 
   const funcQueue = () => {

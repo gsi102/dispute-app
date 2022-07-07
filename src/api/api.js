@@ -1,10 +1,9 @@
 import * as axios from "axios";
-import { serverName } from "../store/store";
 
-const server = serverName.toString();
+const serverName = "http://localhost:3003";
 
 const instance = axios.create({
-  baseURL: server,
+  baseURL: serverName,
   withCredentials: true,
 });
 
@@ -15,9 +14,7 @@ const getMessagesLocation = (flag) => {
 
 export const messagesAPI = {
   getMessages: (flag) => {
-    return instance
-      .get(`/messages/${getMessagesLocation(flag)}`)
-      .then((response) => response.data);
+    return instance.get(`/messages/${flag}`).then((response) => response);
   },
   deleteAndReturnOrLikeMessage: (messageIndex, flag, type) => {
     return instance
@@ -26,47 +23,26 @@ export const messagesAPI = {
       })
       .then((response) => response.data);
   },
-
-  newMessage: (flag, messageInput, postfixForId) => {
-    const newMessageFactory = function() {
-      const date = new Date();
-      function dateTransform(dateValue) {
-        return ((dateValue < 10 ? "0" : "") + dateValue).toString();
-      }
-
-      let newMessage = {
-        dateHh: dateTransform(date.getHours()),
-        dateMm: dateTransform(date.getMinutes()),
-        dateFull: date.toString(),
-        id: "",
-        name: "someName",
-        text: messageInput,
-        deletedText: "",
-        deleted: false,
-        likes: null,
-      };
-      // Setting likes only for disputeMessages
-      if (flag.search(/^[d]/) === 0) newMessage.likes = 0;
-      // Setting correct id
-      newMessage.id = flag + "_" + postfixForId;
-      return newMessage;
-    };
-
+  newMessage: (flag, userID, userLogin, messageInput) => {
     return instance
-      .post(`/messages/${getMessagesLocation(flag)}`, newMessageFactory(), {
-        withCredentials: true,
+      .post(`/messages/${getMessagesLocation(flag)}`, {
+        flag,
+        userID,
+        userLogin,
+        messageInput,
       })
       .then((response) => response.data);
   },
 };
 
 export const usersAPI = {
-  signIn: (userId, passwordInput) => {
+  signIn: (loginInput, passwordInput) => {
     return instance
-      .post(`/users/${userId}`, {
+      .post(`/sign-in`, {
+        login: loginInput,
         password: passwordInput,
       })
-      .then((response) => response.status);
+      .then((response) => response);
   },
   signUp: (credentials) => {
     return instance

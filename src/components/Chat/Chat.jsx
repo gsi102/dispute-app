@@ -1,9 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 
 import MessageItem from "./MessageItem.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { messagesAPI } from "../../api/api.js";
-import { setMessages } from "../../store/reducers/messagesSlice.js";
+import { fetchedMessagesThunk } from "../../store/reducers/messagesSlice.js";
 
 const Chat = function(props) {
   const dispatch = useDispatch();
@@ -11,10 +10,19 @@ const Chat = function(props) {
   let messages = useSelector((state) => state.messages.showMessages[flag]);
 
   const firstLoadMessages = useEffect(() => {
-    messagesAPI.getMessages(flag).then((data) => {
-      let fetchedMessages = [...data];
-      dispatch(setMessages({ fetchedMessages, flag }));
-    });
+    let canceled = false;
+
+    const fetched = (async () => {
+      try {
+        const response = await dispatch(fetchedMessagesThunk(flag)).unwrap();
+        if (canceled) return;
+      } catch (err) {
+        console.error(err);
+        return alert("Error (console)");
+      }
+    })();
+
+    return () => (canceled = true);
   }, []);
 
   if (messages[0]) {

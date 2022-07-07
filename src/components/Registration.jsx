@@ -1,33 +1,28 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
-import { setAuth } from "../store/reducers/usersSlice.js";
-import { usersAPI } from "../api/api";
+import { signUpThunk } from "../store/reducers/usersSlice.js";
 
 const Registrarion = () => {
   const [loginInput, setLoginInput] = useState("");
   const [emailInput, setEmailInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
   const dispatch = useDispatch();
 
-  const prevPage = location.state ? location.state.from.pathname : "/";
-
   const signUp = async function() {
+    const navigateOnSuccess = () => navigate("/login", { replace: true });
     const credentials = {
       login: loginInput,
       password: passwordInput,
       email: emailInput,
     };
     try {
-      const status = await usersAPI.signUp(credentials);
-      if (status === 200) {
-        dispatch(setAuth());
-        navigate(prevPage, { replace: true });
-      }
+      const status = await dispatch(
+        signUpThunk({ credentials, navigateOnSuccess })
+      ).unwrap();
     } catch (err) {
       console.error(err);
       return alert("Error (console)");
