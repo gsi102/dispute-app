@@ -18,6 +18,37 @@ export const fetchedMessagesThunk = createAsyncThunk(
   }
 );
 
+export const sendMessageThunk = createAsyncThunk(
+  "messages/sendMessageThunk",
+  async ({ flag, userID, userLogin, messageInput }, thunkAPI) => {
+    let response = await messagesAPI.newMessage(
+      flag,
+      userID,
+      userLogin,
+      messageInput
+    );
+    const newMessage = response.data;
+    if (response.status === 200) {
+      // Constant connection required
+      // thunkAPI.dispatch(addMessages({ newMessage, flag }));
+    }
+  }
+);
+
+export const deleteAndReturnOrLikeMessageThunk = createAsyncThunk(
+  "messages/deleteAndReturnOrLikeMessageThunk",
+  async ({ messageID, flag, type }, thunkAPI) => {
+    let response = await messagesAPI.deleteAndReturnOrLikeMessage(
+      messageID,
+      flag,
+      type
+    );
+    if (response.status === 200) {
+      // thunkAPI.dispatch(addMessages({ newMessage, flag }));
+    }
+  }
+);
+
 const messagesSlice = createSlice({
   name: "messages",
   initialState: {},
@@ -44,15 +75,10 @@ const messagesSlice = createSlice({
   },
   extraReducers: {
     [fetchedMessagesThunk.fulfilled]: (state, action) => {},
+    [sendMessageThunk.fulfilled]: (state, action) => {},
   },
 });
 
-export const {
-  setMessages,
-  sendMessage,
-  deleteMessage,
-  searchMessages,
-  likeMessage,
-} = messagesSlice.actions;
+export const { setMessages, searchMessages } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

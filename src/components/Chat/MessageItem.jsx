@@ -1,40 +1,57 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import Likes from "../Likes.jsx";
-import { setMessages } from "../../store/reducers/messagesSlice.js";
-import { messagesAPI } from "../../api/api.js";
+import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice.js";
 
 const MessageItem = (props) => {
   const dispatch = useDispatch();
-  const messageId = props.message.id;
+  const messageID = props.message.id;
+  const likes = props.message.likes;
+  const messageBody = props.message.messageBody;
+  console.log(messageBody);
   // Name of state
-  const flag = messageId.match(/[^_]*/g)[0];
-  // Number in the id (need for find by index)
-  const messageIndex = messageId.match(/\d+/g)[0];
-  const isMessageDeleted = props.message.deleted;
+  const flag = props.flag;
+  const isMessageDeleted = props.message.isDeleted;
 
-  const asyncRequestToServer = function(type) {
-    messagesAPI
-      .deleteAndReturnOrLikeMessage(messageIndex, flag, type)
-      .then((data) => {
-        let fetchedMessages = [...data];
-        dispatch(setMessages({ fetchedMessages, flag }));
-      });
+  const asyncRequestToServer = async function(type) {
+    switch (type) {
+      case "delete":
+        break;
+      case "return":
+        break;
+      default:
+      //will never execute
+    }
+
+    try {
+      let response = await dispatch(
+        deleteAndReturnOrLikeMessageThunk({ messageID, flag, type })
+      ).unwrap();
+    } catch (err) {
+      console.log(err);
+    }
   };
+
+  const dateHh = dateTransform(props.message.dateHh);
+  const dateMm = dateTransform(props.message.dateMm);
+  function dateTransform(dateValue) {
+    dateValue = dateValue.toString();
+    return (dateValue < 10 ? "0" : "") + dateValue;
+  }
 
   return (
     <div className="message-item" data-message-id={props.message.id}>
       <div className="message-name-and-text">
-        <div className="message-name">{props.message.name}:&nbsp;</div>
-        <div className="message-text">{props.message.text}</div>
+        <div className="message-name">{props.message.user}:&nbsp;</div>
+        <div className="message-text">{props.message.messageBody}</div>
       </div>
       {props.message.likes !== null && !isMessageDeleted ? (
-        <Likes flag={flag} messageIndex={messageIndex} />
+        <Likes asyncRequestToServer={asyncRequestToServer} likes={likes} />
       ) : null}
       <div onClick={() => asyncRequestToServer("delete")}>DEL</div>
       <div onClick={() => asyncRequestToServer("return")}>Return</div>
       <div className="message-time">
-        {props.message.dateHh}:{props.message.dateMm}
+        {dateHh}:{dateMm}
       </div>
     </div>
   );
