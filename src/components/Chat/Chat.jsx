@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 
 import MessageItem from "./MessageItem.jsx";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +11,6 @@ const Chat = function(props) {
 
   const firstLoadMessages = useEffect(() => {
     let canceled = false;
-
     const fetched = (async () => {
       try {
         const response = await dispatch(fetchedMessagesThunk(flag)).unwrap();
@@ -29,7 +28,7 @@ const Chat = function(props) {
     return (
       <div className="chat">
         {messages.map((message) => (
-          <MessageItem message={message} key={message.id} />
+          <MessageItem flag={flag} message={message} key={message.id} />
         ))}
       </div>
     );

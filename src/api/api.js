@@ -7,6 +7,7 @@ const instance = axios.create({
   withCredentials: true,
 });
 
+// May be not needed soon
 const getMessagesLocation = (flag) => {
   let target = flag.match(/^(.*?)Messages/);
   return (target = target[1].toUpperCase());
@@ -16,22 +17,21 @@ export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);
   },
-  deleteAndReturnOrLikeMessage: (messageIndex, flag, type) => {
+  deleteAndReturnOrLikeMessage: (messageID, flag, type) => {
     return instance
-      .patch(`/messages/${getMessagesLocation(flag)}/${messageIndex}`, {
+      .patch(`/messages/${flag}/${messageID}`, {
         type: type,
       })
       .then((response) => response.data);
   },
   newMessage: (flag, userID, userLogin, messageInput) => {
     return instance
-      .post(`/messages/${getMessagesLocation(flag)}`, {
-        flag,
+      .post(`/messages/${flag}`, {
         userID,
         userLogin,
         messageInput,
       })
-      .then((response) => response.data);
+      .then((response) => response);
   },
 };
 
