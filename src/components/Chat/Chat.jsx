@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import MessageItem from "./MessageItem.jsx";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchedMessagesThunk } from "../../store/reducers/messagesSlice.js";
+import { fetchedMessagesThunk } from "../../store/reducers/messagesSlice";
 
 const Chat = function(props) {
   const dispatch = useDispatch();

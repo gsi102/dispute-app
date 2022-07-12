@@ -4,7 +4,7 @@ import SendMessageForm from "../Chat/SendMessageForm.jsx";
 import { useSelector } from "react-redux";
 
 const Spectators = function() {
-  const flag = useSelector((state) => state.messages._flagSource.spectatorChat);
+  const flag = useSelector((state) => state.messages.flagSource.spectatorChat);
 
   return (
     <div className="spectators">

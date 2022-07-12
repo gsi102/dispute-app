@@ -5,30 +5,39 @@ import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messages
 
 const MessageItem = (props) => {
   const dispatch = useDispatch();
-  const messageID = props.message.id;
-  const likes = props.message.likes;
-  const messageBody = props.message.messageBody;
-  console.log(messageBody);
+  const { id, likes, messageBody, isDeleted, deletedText } = props.message;
   // Name of state
   const flag = props.flag;
-  const isMessageDeleted = props.message.isDeleted;
 
-  const asyncRequestToServer = async function(type) {
+  const asyncRequestToServer = function(type) {
+    const request = async (textContainer, type) => {
+      try {
+        let response = await dispatch(
+          deleteAndReturnOrLikeMessageThunk({
+            id,
+            flag,
+            textContainer,
+            type,
+          })
+        ).unwrap();
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     switch (type) {
       case "delete":
+        if (isDeleted) return;
+        request(messageBody, type);
         break;
       case "return":
+        if (isDeleted) request(deletedText, type);
+        break;
+      case "like":
+        request("", type);
         break;
       default:
       //will never execute
-    }
-
-    try {
-      let response = await dispatch(
-        deleteAndReturnOrLikeMessageThunk({ messageID, flag, type })
-      ).unwrap();
-    } catch (err) {
-      console.log(err);
     }
   };
 
@@ -45,7 +54,7 @@ const MessageItem = (props) => {
         <div className="message-name">{props.message.user}:&nbsp;</div>
         <div className="message-text">{props.message.messageBody}</div>
       </div>
-      {props.message.likes !== null && !isMessageDeleted ? (
+      {props.message.likes !== null && !isDeleted ? (
         <Likes asyncRequestToServer={asyncRequestToServer} likes={likes} />
       ) : null}
       <div onClick={() => asyncRequestToServer("delete")}>DEL</div>

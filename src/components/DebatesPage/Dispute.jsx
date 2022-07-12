@@ -5,7 +5,7 @@ import SendMessageForm from "../Chat/SendMessageForm.jsx";
 import { useSelector } from "react-redux";
 
 const Dispute = function() {
-  const flag = useSelector((state) => state.messages._flagSource.disputeChat);
+  const flag = useSelector((state) => state.messages.flagSource.disputeChat);
 
   return (
     <div className="dispute">
