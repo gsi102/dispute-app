@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { composeWithDevToolsLogOnlyInProduction } from "@redux-devtools/extension";
-import messagesReducer from "./reducers/messagesSlice";
+import messagesReducer from "./reducers/messagesSlice.js";
 import usersReducer from "./reducers/usersSlice";
 
 const composeEnhancers = composeWithDevToolsLogOnlyInProduction({});
@@ -15,8 +15,8 @@ const initialState = {
       disputeMessages: [],
       specMessages: [],
     },
-    // Source for messages id. DON'T CHANGE!
-    _flagSource: {
+    // Source for messages id.
+    flagSource: {
       disputeChat: "disputeMessages",
       spectatorChat: "specMessages",
     },

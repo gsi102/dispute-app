@@ -17,9 +17,10 @@ export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);
   },
-  deleteAndReturnOrLikeMessage: (messageID, flag, type) => {
+  deleteAndReturnOrLikeMessage: (id, flag, textContainer, type) => {
     return instance
-      .patch(`/messages/${flag}/${messageID}`, {
+      .patch(`/messages/${flag}/${id}`, {
+        textContainer: textContainer,
         type: type,
       })
       .then((response) => response.data);

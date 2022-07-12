@@ -37,10 +37,11 @@ export const sendMessageThunk = createAsyncThunk(
 
 export const deleteAndReturnOrLikeMessageThunk = createAsyncThunk(
   "messages/deleteAndReturnOrLikeMessageThunk",
-  async ({ messageID, flag, type }, thunkAPI) => {
+  async ({ id, flag, textContainer, type }, thunkAPI) => {
     let response = await messagesAPI.deleteAndReturnOrLikeMessage(
-      messageID,
+      id,
       flag,
+      textContainer,
       type
     );
     if (response.status === 200) {
@@ -65,7 +66,7 @@ const messagesSlice = createSlice({
       const filterTarget = action.payload.flag;
       const filterFunc = function(baseState) {
         const filterMessages = baseState.filter((obj) =>
-          obj.text.toLowerCase().includes(inputValue)
+          obj.messageBody.toLowerCase().includes(inputValue)
         );
         return filterMessages;
       };
