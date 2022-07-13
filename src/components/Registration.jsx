@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
-import { signUpThunk } from "../store/reducers/usersSlice.js";
+import { signUpThunk } from "../store/reducers/usersSlice";
 
 const Registrarion = () => {
   const [loginInput, setLoginInput] = useState("");

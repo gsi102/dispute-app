@@ -1,12 +1,11 @@
-import { configureStore } from "@reduxjs/toolkit";
-import { composeWithDevToolsLogOnlyInProduction } from "@redux-devtools/extension";
-import messagesReducer from "./reducers/messagesSlice.js";
+import { compose, configureStore } from "@reduxjs/toolkit";
+import { ReduxDevtoolsExtensionCompose } from "@redux-devtools/extension";
+import messagesReducer from "./reducers/messagesSlice";
 import usersReducer from "./reducers/usersSlice";
 
-const composeEnhancers = composeWithDevToolsLogOnlyInProduction({});
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const initialState = {
-  messagesState: {
+  messages: {
     // Backend, not for displaying
     disputeMessages: [],
     specMessages: [],
@@ -21,7 +20,7 @@ const initialState = {
       spectatorChat: "specMessages",
     },
   },
-  usersState: {
+  users: {
     isAuth: false,
     userData: {
       id: "",
@@ -42,29 +41,23 @@ const initialState = {
   },
 };
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     messages: messagesReducer,
     users: usersReducer,
   },
   preloadedState: {
-    messages: initialState.messagesState,
-    users: initialState.usersState,
+    messages: initialState.messages,
+    users: initialState.users,
   },
+  // @ts-ignore
   composeEnhancers,
 });
 
-// export default function configureAppStore(preloadedState) {
-//   const store = configureStore({
-//     reducer: rootReducer,
-//
-//     preloadedState,
-//     enhancers: [monitorReducersEnhancer],
-//   })
+export default store;
 
-//   if (process.env.NODE_ENV !== 'production' && module.hot) {
-//     module.hot.accept('./reducers', () => store.replaceReducer(rootReducer))
-//   }
-
-//   return store
-// }
+// Infer the `RootState` and `AppDispatch` types from the store itself
+// export type RootState = ReturnType<typeof store.getState>;
+export type RootState = typeof initialState;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;

@@ -3,7 +3,7 @@ import Input from "../UI/inputs/Input.jsx";
 import Button from "../UI/buttons/Button.jsx";
 import { useDispatch, useSelector } from "react-redux";
 
-import { sendMessageThunk } from "../../store/reducers/messagesSlice.js";
+import { sendMessageThunk } from "../../store/reducers/messagesSlice";
 
 const SendMessageForm = function(props) {
   const [messageInput, setMessageInput] = useState("");

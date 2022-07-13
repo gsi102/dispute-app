@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
-import { searchMessages } from "../../store/reducers/messagesSlice.js";
+import { searchMessages } from "../../store/reducers/messagesSlice";
 
 const SearchField = (props) => {
   const [searchText, setSearchText] = useState("");

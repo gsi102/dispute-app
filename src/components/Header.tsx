@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../hooks/hooks";
 
-const Header = () => {
-  const isAuth = useSelector((state) => state.users.isAuth);
-  const userLogin = useSelector((state) => state.users.userData.login);
+const Header: React.FC = () => {
+  const isAuth = useAppSelector((state) => state.users.isAuth);
+  const userLogin = useAppSelector((state) => state.users.userData.login);
 
   return (
     <header className="header">

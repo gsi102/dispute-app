@@ -1,19 +1,27 @@
 import React, { useState } from "react";
-import Input from "./UI/inputs/Input.jsx";
-import Button from "./UI/buttons/Button.jsx";
-import { useDispatch } from "react-redux";
+import Input from "./UI/inputs/Input";
+import Button from "./UI/buttons/Button";
+import { useAppDispatch } from "../hooks/hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { signInThunk } from "../store/reducers/usersSlice.js";
+import { signInThunk } from "../store/reducers/usersSlice";
 
-const Login = () => {
+type LogInFuncType = () => void;
+type Location = {
+  state?: any;
+  from?: {
+    pathname: string;
+  };
+};
+
+const Login: React.FC = () => {
   const [loginInput, setLoginInput] = useState("");
   const [passwordInput, setPasswordInput] = useState("");
   const navigate = useNavigate();
-  const location = useLocation();
-  const dispatch = useDispatch();
+  const location: Location = useLocation();
+  const dispatch = useAppDispatch();
 
-  const logIn = async () => {
+  const logIn: LogInFuncType = async () => {
     const prevPage = location.state ? location.state.from.pathname : "/";
     const navigateOnSuccess = () => navigate(prevPage, { replace: true });
     try {
@@ -34,14 +42,14 @@ const Login = () => {
         className="input-login"
         type="email"
         placeholder="email"
-        onChange={(e) => setLoginInput(e.target.value)}
+        onChange={(e: any) => setLoginInput(e.target.value)}
       />
       <Input
         value={passwordInput}
         className="input-password"
         type="password"
         placeholder="pass"
-        onChange={(e) => setPasswordInput(e.target.value)}
+        onChange={(e: any) => setPasswordInput(e.target.value)}
       />
       <Button className="login-button" onClick={logIn}>
         Login
