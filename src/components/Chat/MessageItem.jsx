@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import Likes from "../Likes.jsx";
-import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice.js";
+import Likes from "../Likes";
+import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice";
 
 const MessageItem = (props) => {
   const dispatch = useDispatch();

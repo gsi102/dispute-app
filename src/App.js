@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Layout from "./components/Layout.jsx";
-import HomePage from "./components/HomePage.jsx";
-import Login from "./components/Login.jsx";
-import Registration from "./components/Registration.jsx";
-import NotFoundPage from "./components/NotFoundPage.jsx";
-import DebatesPage from "./components/DebatesPage/DebatesPage.jsx";
-import RequireAuth from "./hoc/RequireAuth.tsx";
-import Profile from "./components/Profile.jsx";
+import Layout from "./components/Layout";
+import HomePage from "./components/HomePage";
+import Login from "./components/Login";
+import Registration from "./components/Registration";
+import NotFoundPage from "./components/NotFoundPage";
+import DebatesPage from "./components/DebatesPage/DebatesPage";
+import RequireAuth from "./hoc/RequireAuth";
+import Profile from "./components/Profile";
 
 import "./styles/App.css";
 

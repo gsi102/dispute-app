@@ -1,6 +1,11 @@
 import React from "react";
 
-const Likes = (props) => {
+type Props = {
+  asyncRequestToServer: (arg: string) => void;
+  likes: number;
+};
+
+const Likes: React.FC<Props> = (props) => {
   const likeCounter = props.likes;
 
   return (

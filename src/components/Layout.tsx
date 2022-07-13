@@ -1,11 +1,10 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import Header from "./Header";
+import LeftSide from "./LeftSide";
+import Footer from "./Footer";
 
-import Header from "./Header.jsx";
-import LeftSide from "./LeftSide.jsx";
-import Footer from "./Footer.jsx";
-
-const Layout = () => {
+const Layout: React.FC = () => {
   return (
     <div className="wrapper">
       <Header />

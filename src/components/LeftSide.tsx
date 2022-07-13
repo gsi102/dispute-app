@@ -1,6 +1,6 @@
 import React from "react";
 
-const LeftSide = () => {
+const LeftSide: React.FC = () => {
   return <div className="leftside"></div>;
 };
 

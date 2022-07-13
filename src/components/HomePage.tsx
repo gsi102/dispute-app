@@ -1,6 +1,6 @@
 import React from "react";
 
-const HomePage = () => {
+const HomePage: React.FC = () => {
   return (
     <div className="homePage">
       <h1>Getting Started with Dispute App</h1>
