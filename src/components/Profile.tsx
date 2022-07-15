@@ -1,8 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux/es/exports";
+import { useAppSelector } from "../hooks/hooks";
 
-const Profile = () => {
-  const userData = useSelector((state) => state.users.userData);
+const Profile: React.FC = () => {
+  const userData = useAppSelector((state) => state.users.userData);
 
   return (
     <div>
@@ -33,7 +33,7 @@ const Profile = () => {
       <label>
         <strong>Ocupation:</strong>
       </label>
-      <p>{userData.ocupation}</p>
+      <p>{userData.occupation}</p>
     </div>
   );
 };

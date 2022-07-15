@@ -1,6 +1,6 @@
 import React from "react";
 
-const Participants = () => {
+const Participants: React.FC = () => {
   return (
     <div className="participants">
       <div className="participant-item" />

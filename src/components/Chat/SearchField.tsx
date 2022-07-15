@@ -1,14 +1,15 @@
 import React from "react";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks/hooks";
 import { searchMessages } from "../../store/reducers/messagesSlice";
+import { FlagAsProps } from "../../types/types";
 
-const SearchField = (props) => {
-  const [searchText, setSearchText] = useState("");
-  const dispatch = useDispatch();
+const SearchField: React.FC<FlagAsProps> = (props) => {
+  const [searchText, setSearchText] = useState<string>("");
+  const dispatch = useAppDispatch();
   const flag = props.flag;
 
-  const funcQueue = (e) => {
+  const funcQueue = (e: any): void => {
     const targetValue = e.target.value;
     setSearchText(targetValue);
     dispatch(searchMessages({ targetValue, flag }));

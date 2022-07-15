@@ -1,18 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../hooks/hooks";
 import { useNavigate } from "react-router-dom";
 import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
 import { signUpThunk } from "../store/reducers/usersSlice";
 
-const Registrarion = () => {
-  const [loginInput, setLoginInput] = useState("");
-  const [emailInput, setEmailInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+const Registrarion: React.FC = () => {
+  const [loginInput, setLoginInput] = useState<string>("");
+  const [emailInput, setEmailInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const signUp = async function() {
+  const signUp = async function(): Promise<void> {
     const navigateOnSuccess = () => navigate("/login", { replace: true });
     const credentials = {
       login: loginInput,
@@ -47,14 +47,14 @@ const Registrarion = () => {
         type="text"
         placeholder="create a login*"
         required
-        onChange={(e) => setLoginInput(e.target.value)}
+        onChange={(e: any) => setLoginInput(e.target.value)}
       />
       <Input
         value={emailInput}
         className="input-email"
         type="email"
         placeholder="add an email"
-        onChange={(e) => setEmailInput(e.target.value)}
+        onChange={(e: any) => setEmailInput(e.target.value)}
       />
       <Input
         value={passwordInput}
@@ -62,7 +62,7 @@ const Registrarion = () => {
         type="password"
         placeholder="create a pass*"
         required
-        onChange={(e) => setPasswordInput(e.target.value)}
+        onChange={(e: any) => setPasswordInput(e.target.value)}
       />
       <Button className="signup-button" onClick={signUp}>
         Create

@@ -29,6 +29,25 @@ type FetchedMessagesPayloadType = {
   fetchedMessages: Array<any>;
 };
 
+type AddMessagesPayloadType = {
+  flag: Flag;
+  newMessage: {
+    id: string;
+    dateHh: number;
+    dateMm: number;
+    dateSs: number;
+    dateMs: number;
+    dateFull: string;
+    userID: string;
+    user: string;
+    messageBody: string;
+    deletedText: string;
+    isDeleted: boolean;
+    wasDeleted: boolean;
+    likes: number | null;
+  };
+};
+
 type SearchMessagesPayloadType = {
   flag: Flag;
   targetValue: string;
@@ -66,7 +85,16 @@ export const sendMessageThunk = createAsyncThunk<
     );
     const newMessage = response.data;
     if (response.status === 200) {
-      // thunkAPI.dispatch(addMessages({ newMessage, flag }));
+      // const resp = thunkAPI.dispatch(addMessages({ newMessage, flag }));
+      // re-write: https://ru.stackoverflow.com/questions/531827/websocket-still-in-connecting-state
+      const wsConnection = new WebSocket(`ws://localhost:3008/`);
+      if (!wsConnection.readyState) {
+        setTimeout(function() {
+          wsConnection.send(newMessage.id);
+        }, 100);
+      } else {
+        wsConnection.send(newMessage.id);
+      }
     }
   }
 );
@@ -117,6 +145,12 @@ const messagesSlice = createSlice({
 
       state.showMessages[filterTarget] = filterFunc(state[filterTarget]);
     },
+    // Update messages list - local state changing.
+    addMessages(state, action: PayloadAction<AddMessagesPayloadType>) {
+      const flag = action.payload.flag;
+      state[flag] = [...state[flag], action.payload.newMessage];
+      state.showMessages[flag] = [...state[flag]];
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchedMessagesThunk.fulfilled, (state, action) => {
@@ -127,6 +161,10 @@ const messagesSlice = createSlice({
   },
 });
 
-export const { setMessages, searchMessages } = messagesSlice.actions;
+export const {
+  setMessages,
+  searchMessages,
+  addMessages,
+} = messagesSlice.actions;
 
 export default messagesSlice.reducer;
