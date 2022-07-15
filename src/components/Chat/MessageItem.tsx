@@ -1,16 +1,17 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../hooks/hooks";
 import Likes from "../Likes";
 import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice";
+import { MessageItemProps } from "../../types/types";
 
-const MessageItem = (props) => {
-  const dispatch = useDispatch();
-  const { id, likes, messageBody, isDeleted, deletedText } = props.message;
+const MessageItem: React.FC<MessageItemProps> = (props) => {
+  const dispatch = useAppDispatch();
+  let { id, user, likes, messageBody, isDeleted, deletedText } = props.message;
   // Name of state
   const flag = props.flag;
 
-  const asyncRequestToServer = function(type) {
-    const request = async (textContainer, type) => {
+  const asyncRequestToServer = function(type: string) {
+    const request = async (textContainer: string, type: string) => {
       try {
         let response = await dispatch(
           deleteAndReturnOrLikeMessageThunk({
@@ -43,18 +44,19 @@ const MessageItem = (props) => {
 
   const dateHh = dateTransform(props.message.dateHh);
   const dateMm = dateTransform(props.message.dateMm);
-  function dateTransform(dateValue) {
-    dateValue = dateValue.toString();
-    return (dateValue < 10 ? "0" : "") + dateValue;
+
+  function dateTransform(dateValue: number | string) {
+    dateValue = (dateValue < 10 ? "0" : "") + dateValue.toString();
+    return dateValue;
   }
 
   return (
-    <div className="message-item" data-message-id={props.message.id}>
+    <div className="message-item" data-message-id={id}>
       <div className="message-name-and-text">
-        <div className="message-name">{props.message.user}:&nbsp;</div>
-        <div className="message-text">{props.message.messageBody}</div>
+        <div className="message-name">{user}:&nbsp;</div>
+        <div className="message-text">{messageBody}</div>
       </div>
-      {props.message.likes !== null && !isDeleted ? (
+      {likes !== null && !isDeleted ? (
         <Likes asyncRequestToServer={asyncRequestToServer} likes={likes} />
       ) : null}
       <div onClick={() => asyncRequestToServer("delete")}>DEL</div>

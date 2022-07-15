@@ -7,12 +7,6 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-// May be not needed soon
-const getMessagesLocation = (flag) => {
-  let target = flag.match(/^(.*?)Messages/);
-  return (target = target[1].toUpperCase());
-};
-
 export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);

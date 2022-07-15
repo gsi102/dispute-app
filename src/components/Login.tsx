@@ -5,23 +5,16 @@ import { useAppDispatch } from "../hooks/hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { signInThunk } from "../store/reducers/usersSlice";
-
-type LogInFuncType = () => void;
-type Location = {
-  state?: any;
-  from?: {
-    pathname: string;
-  };
-};
+import { LocationType } from "../types/types";
 
 const Login: React.FC = () => {
-  const [loginInput, setLoginInput] = useState("");
-  const [passwordInput, setPasswordInput] = useState("");
+  const [loginInput, setLoginInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
   const navigate = useNavigate();
-  const location: Location = useLocation();
+  const location: LocationType = useLocation();
   const dispatch = useAppDispatch();
 
-  const logIn: LogInFuncType = async () => {
+  const logIn = async (): Promise<void> => {
     const prevPage = location.state ? location.state.from.pathname : "/";
     const navigateOnSuccess = () => navigate(prevPage, { replace: true });
     try {
