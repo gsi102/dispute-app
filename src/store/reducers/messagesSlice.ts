@@ -84,9 +84,7 @@ export const sendMessageThunk = createAsyncThunk<
       messageInput
     );
     const newMessage = response.data;
-    if (response.status === 200) {
-      // const resp = thunkAPI.dispatch(addMessages({ newMessage, flag }));
-      // re-write: https://ru.stackoverflow.com/questions/531827/websocket-still-in-connecting-state
+    if (response.status) {
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       if (!wsConnection.readyState) {
         setTimeout(function() {

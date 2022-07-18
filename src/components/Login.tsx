@@ -22,6 +22,7 @@ const Login: React.FC = () => {
         signInThunk({ loginInput, passwordInput, navigateOnSuccess })
       ).unwrap();
     } catch (err) {
+      alert("error(console");
       console.error(err);
     }
   };

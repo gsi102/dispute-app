@@ -1,5 +1,5 @@
 import React from "react";
-import { LikesProps } from "../types/types";
+import { LikesProps } from "../../types/types";
 
 const Likes: React.FC<LikesProps> = (props) => {
   const likeCounter = props.likes;
