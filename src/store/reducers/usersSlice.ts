@@ -55,8 +55,7 @@ export const signUpThunk = createAsyncThunk<
   }
 >("users/signUpThunk", async ({ credentials, navigateOnSuccess }, thunkAPI) => {
   let responseStatus = await usersAPI.signUp(credentials);
-  // Vulnerability
-  if (responseStatus === 200) {
+  if (responseStatus) {
     // Check another options
     navigateOnSuccess();
   }

@@ -1,6 +1,6 @@
 import React from "react";
 import { useAppDispatch } from "../../hooks/hooks";
-import Likes from "../Likes";
+import Likes from "./Likes";
 import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice";
 import { MessageItemProps } from "../../types/types";
 
@@ -51,7 +51,7 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
   }
 
   return (
-    <div className="message-item" data-message-id={id}>
+    <div className="message-item">
       <div className="message-name-and-text">
         <div className="message-name">{user}:&nbsp;</div>
         <div className="message-text">{messageBody}</div>

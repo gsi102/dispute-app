@@ -34,7 +34,6 @@ const Chat: React.FC<FlagAsProps> = function(props) {
     };
   }, []);
 
-  console.log(flag);
   if (messages[0]) {
     return (
       <div className="chat">
