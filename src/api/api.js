@@ -11,11 +11,12 @@ export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);
   },
-  deleteAndReturnOrLikeMessage: (id, flag, textContainer, type) => {
+  updateMessage: (id, user, flag, textContainer, type) => {
     return instance
       .patch(`/messages/${flag}/${id}`, {
-        textContainer: textContainer,
-        type: type,
+        user,
+        textContainer,
+        type,
       })
       .then((response) => response.data);
   },
@@ -40,8 +41,12 @@ export const usersAPI = {
       .then((response) => response);
   },
   signUp: (credentials) => {
-    return instance
-      .post(`/sign-up`, credentials)
-      .then((response) => response.status);
+    return instance.post(`/sign-up`, credentials).then((response) => response);
+  },
+  fetchUsers: (searchByLogin) => {
+    let safeLogin = encodeURIComponent(searchByLogin);
+    if (safeLogin === "")
+      return { status: 204, statusText: "Input field is empty" };
+    return instance.get(`/users/${safeLogin}`).then((response) => response);
   },
 };

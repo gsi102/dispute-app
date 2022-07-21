@@ -12,41 +12,9 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
   const flag = props.flag;
   const userLogin = useAppSelector((state) => state.users.userData.login);
   const userID = useAppSelector((state) => state.users.userData.id);
+  const wsReadyStatus = useAppSelector((state) => state.messages.wsReadyStatus);
 
   const sendMessage = async (): Promise<void> => {
-    // //WS/////////////////////
-    // const wsConnection = new WebSocket(`ws://localhost:3008/`);
-
-    // const thunkDispatch = async () => {
-    //   const messageData = JSON.stringify({
-    //     flag,
-    //     userID,
-    //     userLogin,
-    //     messageInput,
-    //   });
-    //   wsConnection.send(messageData);
-    //   // try {
-    //   //   const response = await dispatch(
-    //   //     sendMessageThunk({ flag, userID, userLogin, messageInput })
-    //   //   ).unwrap();
-    //   // } catch (err) {
-    //   //   console.error(err);
-    //   // }
-    // };
-
-    // // re-write: https://ru.stackoverflow.com/questions/531827/websocket-still-in-connecting-state
-    // if (!wsConnection.readyState) {
-    //   setTimeout(function() {
-    //     thunkDispatch();
-    //   }, 100);
-    // } else {
-    //   thunkDispatch();
-    // }
-    // wsConnection.addEventListener("message", (e) => {
-    //   console.log(e);
-    // });
-    ////////////////////////////////
-
     try {
       const response = await dispatch(
         sendMessageThunk({ flag, userID, userLogin, messageInput })
@@ -65,7 +33,8 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
   };
 
   return (
-    <div className="dispute-chat-form">
+    <div className="sendMessageForm">
+      <span className="userLogin">{userLogin}:</span>
       <Input
         value={messageInput}
         ref={inputRef}
@@ -75,7 +44,11 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
         onChange={(e: any) => setMessageInput(e.target.value)}
         onKeyDown={(e: any) => (e.key === "Enter" ? funcQueue() : "")}
       />
-      <Button className="send-message-btn" onClick={funcQueue}>
+      <Button
+        className="send-message-btn"
+        disabled={wsReadyStatus !== "ready"}
+        onClick={funcQueue}
+      >
         Send
       </Button>
     </div>

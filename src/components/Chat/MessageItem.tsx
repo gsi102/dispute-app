@@ -1,21 +1,22 @@
 import React from "react";
-import { useAppDispatch } from "../../hooks/hooks";
-import Likes from "../Likes";
-import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import Likes from "./Likes";
+import { updateMessageThunk } from "../../store/reducers/messagesSlice";
 import { MessageItemProps } from "../../types/types";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
   const dispatch = useAppDispatch();
   let { id, user, likes, messageBody, isDeleted, deletedText } = props.message;
+  const userLogin = useAppSelector((state) => state.users.userData.login);
   // Name of state
   const flag = props.flag;
-
   const asyncRequestToServer = function(type: string) {
     const request = async (textContainer: string, type: string) => {
       try {
         let response = await dispatch(
-          deleteAndReturnOrLikeMessageThunk({
+          updateMessageThunk({
             id,
+            userLogin,
             flag,
             textContainer,
             type,
@@ -41,7 +42,6 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
       //will never execute
     }
   };
-
   const dateHh = dateTransform(props.message.dateHh);
   const dateMm = dateTransform(props.message.dateMm);
 

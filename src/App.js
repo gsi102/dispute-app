@@ -9,6 +9,8 @@ import NotFoundPage from "./components/NotFoundPage";
 import DebatesPage from "./components/DebatesPage/DebatesPage";
 import RequireAuth from "./hoc/RequireAuth";
 import Profile from "./components/Profile";
+import CreateDispute from "./components/CreateDispute";
+import NewDisputeOptions from "./components/NewDisputeOptions";
 
 import "./styles/App.css";
 
@@ -27,6 +29,15 @@ function App() {
               </RequireAuth>
             }
           />
+          <Route
+            path="create-dispute"
+            element={
+              <RequireAuth>
+                <CreateDispute />
+              </RequireAuth>
+            }
+          />
+          <Route path="new-dispute-options" element={<NewDisputeOptions />} />
           <Route
             path="debates"
             element={<Navigate to="/debates-page" replace />}

@@ -1,17 +1,25 @@
 import React from "react";
-import SearchField from "../Chat/SearchField";
+import { useDispatch } from "react-redux";
+import SearchField from "../SearchField";
 import Chat from "../Chat/Chat";
 import SendMessageForm from "../Chat/SendMessageForm";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
+import { searchMessages } from "../../store/reducers/messagesSlice";
 
 const Dispute: React.FC = function() {
   const flag = useAppSelector((state) => state.messages.flagSource.disputeChat);
+  const dispatch = useAppDispatch();
+  const searchCallback = (searchByText: string) => {
+    dispatch(searchMessages({ searchByText, flag }));
+  };
 
   return (
     <div className="dispute">
-      <SearchField flag={flag} />
-      <p>Welcome to debates!</p>
-      <Chat flag={flag} />
+      <div className="chatField">
+        <SearchField searchCallback={searchCallback} />
+        <p>Welcome to debates!</p>
+        <Chat flag={flag} />
+      </div>
       <SendMessageForm flag={flag} />
     </div>
   );

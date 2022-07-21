@@ -21,21 +21,6 @@ html {
 
 /* COMMON STYLES */
 
-.send-message-btn {
-  height: 100%;
-}
-
-.input-chat-message {
-  width: 60%;
-  height: 100%;
-  resize: none;
-}
-
-.chat {
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
 .wrapper {
   width: 100%;
 }
@@ -126,11 +111,43 @@ html {
 }
 
 /* Common Chat styles */
+.chatField {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 80%;
+}
 
 .message-item,
 .message-name-and-text {
   display: flex;
   justify-content: space-between;
+}
+
+.userLogin {
+  position: relative;
+  display: block;
+  right: 5%;
+  font-weight: 600;
+}
+
+.sendMessageForm {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 20%;
+  border: 1px solid rgb(80, 80, 80, 0.1);
+  background-color: white;
+}
+
+.input-chat-message {
+  height: 50%;
+  resize: none;
+}
+
+.send-message-btn {
+  height: 50%;
 }
 
 /* Dispute block */
@@ -144,25 +161,6 @@ html {
   border: 1px solid rgb(80, 80, 80, 0.1);
 }
 
-.dispute-chat-form {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  height: 20%;
-  border: 1px solid rgb(80, 80, 80, 0.1);
-  background-color: white;
-  bottom: 0;
-  left: 0;
-}
-
-.dispute-chat-form-message {
-  width: 60%;
-  height: 100%;
-  resize: none;
-}
-
 /* Viewers chat block */
 
 .spectators {
@@ -172,28 +170,6 @@ html {
   flex-direction: column;
   padding: 15px;
   border: 1px solid rgb(80, 80, 80, 0.1);
-}
-
-.chat-messages {
-  overflow-x: hidden;
-  overflow-y: scroll;
-}
-
-.chat-form {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  width: 100%;
-  height: 20%;
-  border: 2px solid goldenrod;
-  background-color: white;
-  bottom: 0;
-  left: 0;
-}
-
-.chat-form-name {
-  width: 20%;
 }
 
 /* FOOTER BLOCK */

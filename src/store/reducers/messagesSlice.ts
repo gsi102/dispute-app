@@ -20,6 +20,7 @@ type SendMessageType = {
 type UpdateMessageType = {
   flag: Flag;
   id: string;
+  userLogin: string;
   textContainer: string;
   type: string;
 };
@@ -50,7 +51,7 @@ type AddMessagesPayloadType = {
 
 type SearchMessagesPayloadType = {
   flag: Flag;
-  targetValue: string;
+  searchByText: string;
 };
 
 export const fetchedMessagesThunk = createAsyncThunk<
@@ -62,6 +63,7 @@ export const fetchedMessagesThunk = createAsyncThunk<
 >("messages/fetchedMessagesThunk", async (flag, thunkAPI) => {
   let response = await messagesAPI.getMessages(flag);
   const fetchedMessages = [...response.data];
+
   if (response.status === 200) {
     thunkAPI.dispatch(setMessages({ fetchedMessages, flag }));
   }
@@ -84,38 +86,48 @@ export const sendMessageThunk = createAsyncThunk<
       messageInput
     );
     const newMessage = response.data;
-    if (response.status === 200) {
-      // const resp = thunkAPI.dispatch(addMessages({ newMessage, flag }));
-      // re-write: https://ru.stackoverflow.com/questions/531827/websocket-still-in-connecting-state
+
+    if (response.status) {
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
-      if (!wsConnection.readyState) {
-        setTimeout(function() {
-          wsConnection.send(newMessage.id);
-        }, 100);
-      } else {
-        wsConnection.send(newMessage.id);
-      }
+      const wsPayload = {
+        id: newMessage.id,
+        type: "NEW_MESSAGE",
+      };
+      wsConnection.onopen = () => {
+        wsConnection.send(JSON.stringify(wsPayload));
+        wsConnection.close();
+      };
     }
   }
 );
 
-export const deleteAndReturnOrLikeMessageThunk = createAsyncThunk<
+export const updateMessageThunk = createAsyncThunk<
   any,
   UpdateMessageType,
   {
     dispatch: AppDispatch;
   }
 >(
-  "messages/deleteAndReturnOrLikeMessageThunk",
-  async ({ id, flag, textContainer, type }, thunkAPI) => {
-    let response = await messagesAPI.deleteAndReturnOrLikeMessage(
+  "messages/updateMessageThunk",
+  async ({ id, userLogin, flag, textContainer, type }, thunkAPI) => {
+    let response = await messagesAPI.updateMessage(
       id,
+      userLogin,
       flag,
       textContainer,
       type
     );
-    if (response.status === 200) {
-      // thunkAPI.dispatch(addMessages({ newMessage, flag }));
+    // change response later
+    if (response.changedRows === 1) {
+      const wsConnection = new WebSocket(`ws://localhost:3008/`);
+      const wsPayload = {
+        id,
+        type: "UPDATE_MESSAGE",
+      };
+      wsConnection.onopen = () => {
+        wsConnection.send(JSON.stringify(wsPayload));
+        wsConnection.close();
+      };
     }
   }
 );
@@ -134,7 +146,7 @@ const messagesSlice = createSlice({
     },
     // Search message reducer
     searchMessages(state, action: PayloadAction<SearchMessagesPayloadType>) {
-      const inputValue = action.payload.targetValue.toString().toLowerCase();
+      const inputValue = action.payload.searchByText.toString().toLowerCase();
       const filterTarget = action.payload.flag;
       const filterFunc = function(baseState: Array<any>) {
         const filterMessages = baseState.filter((obj: any) =>
@@ -145,11 +157,25 @@ const messagesSlice = createSlice({
 
       state.showMessages[filterTarget] = filterFunc(state[filterTarget]);
     },
-    // Update messages list - local state changing.
+    // Add new messages in Chat - local state changing.
     addMessages(state, action: PayloadAction<AddMessagesPayloadType>) {
       const flag = action.payload.flag;
       state[flag] = [...state[flag], action.payload.newMessage];
       state.showMessages[flag] = [...state[flag]];
+    },
+    // Update messages - local state changing.
+    updateMessages(state, action: PayloadAction<any>) {
+      const flag = action.payload.flag;
+      const message = action.payload.updatedMessage;
+      const index = state[flag].findIndex(
+        (element: any) => element.id === message.id
+      );
+      // Can do this because RTK goes w/ Immer.
+      state[flag].splice(index, 1, message);
+      state.showMessages[flag] = [...state[flag]];
+    },
+    wsConnectionUpdate(state, action) {
+      state.wsReadyStatus = action.payload.status;
     },
   },
   extraReducers: (builder) => {
@@ -158,6 +184,7 @@ const messagesSlice = createSlice({
       // based on the slice state and the `fulfilled` action creator
     });
     builder.addCase(sendMessageThunk.fulfilled, (state, action) => {});
+    builder.addCase(updateMessageThunk.fulfilled, (state, action) => {});
   },
 });
 
@@ -165,6 +192,8 @@ export const {
   setMessages,
   searchMessages,
   addMessages,
+  updateMessages,
+  wsConnectionUpdate,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

@@ -10,8 +10,10 @@ const Spectators: React.FC = function() {
 
   return (
     <div className="spectators">
-      <p> Welcome to spec chat!</p>
-      <Chat flag={flag} />
+      <div className="chatField">
+        <p> Welcome to spec chat!</p>
+        <Chat flag={flag} />
+      </div>
       <SendMessageForm flag={flag} />
     </div>
   );

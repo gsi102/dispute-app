@@ -1,13 +1,8 @@
 import React, { useEffect } from "react";
 import MessageItem from "./MessageItem";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
-import {
-  addMessages,
-  fetchedMessagesThunk,
-} from "../../store/reducers/messagesSlice";
+import { fetchedMessagesThunk } from "../../store/reducers/messagesSlice";
 import { Message, FlagAsProps } from "../../types/types";
-import { messagesAPI } from "../../api/api";
-import { setMessages } from "../../store/reducers/messagesSlice";
 
 const Chat: React.FC<FlagAsProps> = function(props) {
   const dispatch = useAppDispatch();
@@ -15,6 +10,7 @@ const Chat: React.FC<FlagAsProps> = function(props) {
   let messages = useAppSelector(
     (state: any) => state.messages.showMessages[flag]
   );
+
   const firstLoadMessages = useEffect(() => {
     let canceled = false;
     // Doesn't work. WHY?
@@ -34,7 +30,6 @@ const Chat: React.FC<FlagAsProps> = function(props) {
     };
   }, []);
 
-  console.log(flag);
   if (messages[0]) {
     return (
       <div className="chat">

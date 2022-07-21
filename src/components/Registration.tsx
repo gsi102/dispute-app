@@ -19,8 +19,9 @@ const Registrarion: React.FC = () => {
       password: passwordInput,
       email: emailInput,
     };
+
     try {
-      const status = await dispatch(
+      const response = await dispatch(
         signUpThunk({ credentials, navigateOnSuccess })
       ).unwrap();
     } catch (err) {
