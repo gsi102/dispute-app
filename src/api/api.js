@@ -11,7 +11,12 @@ export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);
   },
+<<<<<<< HEAD
   deleteAndReturnOrLikeMessage: (id, flag, textContainer, type) => {
+=======
+  
+  updateMessage: (id, user, flag, textContainer, type) => {
+>>>>>>> eacb4b1 (big update, work on likes logic, work w/ server)
     return instance
       .patch(`/messages/${flag}/${id}`, {
         textContainer: textContainer,

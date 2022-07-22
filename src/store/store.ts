@@ -5,6 +5,7 @@ import usersReducer from "./reducers/usersSlice";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const initialState = {
+
   messages: {
     // Backend, not for displaying
     disputeMessages: [],

@@ -14,6 +14,7 @@ type SignInArgsType = {
 };
 
 type SignUpArgsType = {
+
   credentials: {
     login: string;
     password: string;

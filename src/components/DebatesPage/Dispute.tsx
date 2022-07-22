@@ -5,6 +5,7 @@ import SendMessageForm from "../Chat/SendMessageForm";
 import { useAppSelector } from "../../hooks/hooks";
 
 const Dispute: React.FC = function() {
+
   const flag = useAppSelector((state) => state.messages.flagSource.disputeChat);
 
   return (

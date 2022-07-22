@@ -14,6 +14,7 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
   const userID = useAppSelector((state) => state.users.userData.id);
 
   const sendMessage = async (): Promise<void> => {
+<<<<<<< HEAD
     // //WS/////////////////////
     // const wsConnection = new WebSocket(`ws://localhost:3008/`);
 
@@ -46,6 +47,8 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
     //   console.log(e);
     // });
     ////////////////////////////////
+=======
+>>>>>>> eacb4b1 (big update, work on likes logic, work w/ server)
 
     try {
       const response = await dispatch(

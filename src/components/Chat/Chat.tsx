@@ -16,6 +16,7 @@ const Chat: React.FC<FlagAsProps> = function(props) {
     (state: any) => state.messages.showMessages[flag]
   );
   const firstLoadMessages = useEffect(() => {
+
     let canceled = false;
     // Doesn't work. WHY?
     if (!canceled) {

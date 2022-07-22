@@ -5,6 +5,7 @@ import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messages
 import { MessageItemProps } from "../../types/types";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
+
   const dispatch = useAppDispatch();
   let { id, user, likes, messageBody, isDeleted, deletedText } = props.message;
   // Name of state

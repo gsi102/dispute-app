@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "../hooks/hooks";
 
 const Header: React.FC = () => {
+
   const isAuth = useAppSelector((state) => state.users.isAuth);
   const userLogin = useAppSelector((state) => state.users.userData.login);
 
