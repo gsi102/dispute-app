@@ -62,6 +62,7 @@ export const signUpThunk = createAsyncThunk<
     dispatch: AppDispatch;
   }
 >("users/signUpThunk", async ({ credentials, navigateOnSuccess }, thunkAPI) => {
+<<<<<<< HEAD
   let response;
   // Disable Prettier plugin for (err: any)
   // prettier-ignore
@@ -75,6 +76,12 @@ export const signUpThunk = createAsyncThunk<
     if (err.response.status === 409) {
       alert(err.response.data);
     }
+=======
+  let responseStatus = await usersAPI.signUp(credentials);
+  if (responseStatus) {
+    // Check another options
+    navigateOnSuccess();
+>>>>>>> 0d3c365a43e7235d04b0350634b5dfa586a669b2
   }
   return response;
 });

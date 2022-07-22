@@ -87,7 +87,10 @@ export const sendMessageThunk = createAsyncThunk<
       messageInput
     );
     const newMessage = response.data;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d3c365a43e7235d04b0350634b5dfa586a669b2
     if (response.status) {
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       const wsPayload = {
