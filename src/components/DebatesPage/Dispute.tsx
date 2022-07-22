@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 import { searchMessages } from "../../store/reducers/messagesSlice";
 
 const Dispute: React.FC = function() {
+
   const flag = useAppSelector((state) => state.messages.flagSource.disputeChat);
   const dispatch = useAppDispatch();
   const searchCallback = (searchByText: string) => {

@@ -1,6 +1,7 @@
 import React from "react";
 
 const Participants: React.FC<any> = () => {
+
   return (
     <div className="participants">
       <div className="participant-item" />

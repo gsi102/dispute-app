@@ -12,6 +12,7 @@ const Chat: React.FC<FlagAsProps> = function(props) {
   );
 
   const firstLoadMessages = useEffect(() => {
+
     let canceled = false;
     // Doesn't work. WHY?
     if (!canceled) {

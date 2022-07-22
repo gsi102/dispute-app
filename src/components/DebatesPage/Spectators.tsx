@@ -4,6 +4,7 @@ import SendMessageForm from "../Chat/SendMessageForm";
 import { useAppSelector } from "../../hooks/hooks";
 
 const Spectators: React.FC = function() {
+
   const flag = useAppSelector(
     (state) => state.messages.flagSource.spectatorChat
   );

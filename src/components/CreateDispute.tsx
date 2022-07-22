@@ -5,6 +5,7 @@ import { searchUsersThunk } from "../store/reducers/usersSlice";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const CreateDispute: React.FC = () => {
+
   const dispatch = useAppDispatch();
   const fetchedUsers = useAppSelector((state) => state.users.fetchedUsers);
   const currentUser = useAppSelector((state) => state.users.userData.login);
@@ -13,7 +14,7 @@ const CreateDispute: React.FC = () => {
   const searchCallback = (searchByLogin: string) => {
     dispatch(searchUsersThunk({ searchByLogin }));
   };
-
+ 
   const createDispute = (
     senderParticipant: string,
     invitedParticipant: string

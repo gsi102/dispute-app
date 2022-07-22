@@ -5,6 +5,7 @@ import { updateMessageThunk } from "../../store/reducers/messagesSlice";
 import { MessageItemProps } from "../../types/types";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
+
   const dispatch = useAppDispatch();
   let { id, user, likes, messageBody, isDeleted, deletedText } = props.message;
   const userLogin = useAppSelector((state) => state.users.userData.login);

@@ -15,6 +15,7 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
   const wsReadyStatus = useAppSelector((state) => state.messages.wsReadyStatus);
 
   const sendMessage = async (): Promise<void> => {
+
     try {
       const response = await dispatch(
         sendMessageThunk({ flag, userID, userLogin, messageInput })

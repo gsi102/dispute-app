@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 
 const NewDisputeOptions: React.FC<any> = (props) => {
+
   const { state }: any = useLocation();
   return (
     <div>

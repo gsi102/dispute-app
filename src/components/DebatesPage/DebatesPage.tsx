@@ -11,6 +11,7 @@ import {
 } from "../../store/reducers/messagesSlice";
 
 const DebatesPage: React.FC = () => {
+
   const dispatch = useAppDispatch();
 
   const wsReadyStatus = useAppSelector((state) => state.messages.wsReadyStatus);

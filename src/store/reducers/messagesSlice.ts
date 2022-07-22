@@ -11,6 +11,7 @@ import { AppDispatch } from "../store.js";
 type Flag = string;
 
 type SendMessageType = {
+
   flag: Flag;
   userID: string;
   userLogin: string;

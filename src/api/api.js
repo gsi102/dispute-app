@@ -11,6 +11,7 @@ export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);
   },
+  
   updateMessage: (id, user, flag, textContainer, type) => {
     return instance
       .patch(`/messages/${flag}/${id}`, {

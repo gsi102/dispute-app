@@ -6,6 +6,7 @@ import Button from "./UI/buttons/Button";
 import { signUpThunk } from "../store/reducers/usersSlice";
 
 const Registrarion: React.FC = () => {
+
   const [loginInput, setLoginInput] = useState<string>("");
   const [emailInput, setEmailInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
