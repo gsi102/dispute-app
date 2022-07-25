@@ -7,17 +7,22 @@ import { Message, FlagAsProps } from "../../types/types";
 const Chat: React.FC<FlagAsProps> = function(props) {
   const dispatch = useAppDispatch();
   const flag = props.flag;
+  let fetchTarget: string[] | string | null = flag.match(/(.*?)Messages/gm);
+  // For TS
+  fetchTarget ? (fetchTarget = fetchTarget[1]) : "";
+
   let messages = useAppSelector(
     (state: any) => state.messages.showMessages[flag]
   );
 
   const firstLoadMessages = useEffect(() => {
     let canceled = false;
-    // Doesn't work. WHY?
     if (!canceled) {
       const fetched = async () => {
         try {
-          const response = await dispatch(fetchedMessagesThunk(flag)).unwrap();
+          const response = await dispatch(
+            fetchedMessagesThunk({ flag, fetchTarget })
+          ).unwrap();
         } catch (err) {
           console.error(err);
           return alert("Error (console)");

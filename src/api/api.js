@@ -8,14 +8,16 @@ const instance = axios.create({
 });
 
 export const messagesAPI = {
-  getMessages: (flag) => {
-    return instance.get(`/messages/${flag}`).then((response) => response);
+  getMessages: (fetchTarget) => {
+    return instance
+      .get(`/messages/${fetchTarget}`)
+      .then((response) => response);
   },
 
-  updateMessage: (id, user, flag, textContainer, type) => {
+  updateMessage: (id, currentUser, flag, textContainer, type) => {
     return instance
       .patch(`/messages/${flag}/${id}`, {
-        user,
+        currentUser,
         textContainer,
         type,
       })
@@ -58,8 +60,9 @@ export const disputesAPI = {
       senderParticipant,
       invitedParticipant,
     };
-    return instance
-      .post(`/create-dispute`, newDisputeData)
-      .then((response) => response);
+    return instance.post(`/create-dispute`, newDisputeData).then((response) => {
+      const responseData = { data: response.data, status: response.status };
+      return responseData;
+    });
   },
 };

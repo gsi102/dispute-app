@@ -5,10 +5,9 @@ export type Message = {
   dateHh: number;
   dateMm: number;
   dateSs: number;
-  dateMs: number;
   dateFull: string;
   userID: string;
-  user: string;
+  userLogin: string;
   messageBody: string;
   deletedText: string;
   isDeleted: boolean;

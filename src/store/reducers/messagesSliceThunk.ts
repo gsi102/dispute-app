@@ -16,18 +16,18 @@ type SendMessageType = {
 type UpdateMessageType = {
   flag: Flag;
   id: string;
-  userLogin: string;
+  currentUser: string;
   textContainer: string;
   type: string;
 };
 
 export const fetchedMessagesThunk = createAsyncThunk<
   any,
-  string,
+  any,
   {
     dispatch: AppDispatch;
   }
->("messages/fetchedMessagesThunk", async (flag, thunkAPI) => {
+>("messages/fetchedMessagesThunk", async ({ flag, fetchTarget }, thunkAPI) => {
   let response = await messagesAPI.getMessages(flag);
   const fetchedMessages = [...response.data];
 
@@ -58,6 +58,7 @@ export const sendMessageThunk = createAsyncThunk<
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       const wsPayload = {
         id: newMessage.id,
+        fetchTarget: flag,
         type: "NEW_MESSAGE",
       };
       wsConnection.onopen = () => {
@@ -76,10 +77,10 @@ export const updateMessageThunk = createAsyncThunk<
   }
 >(
   "messages/updateMessageThunk",
-  async ({ id, userLogin, flag, textContainer, type }, thunkAPI) => {
+  async ({ id, currentUser, flag, textContainer, type }, thunkAPI) => {
     let response = await messagesAPI.updateMessage(
       id,
-      userLogin,
+      currentUser,
       flag,
       textContainer,
       type
@@ -89,6 +90,7 @@ export const updateMessageThunk = createAsyncThunk<
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       const wsPayload = {
         id,
+        fetchTarget: flag,
         type: "UPDATE_MESSAGE",
       };
       wsConnection.onopen = () => {

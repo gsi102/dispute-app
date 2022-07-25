@@ -2,10 +2,10 @@ import { compose, configureStore } from "@reduxjs/toolkit";
 import { ReduxDevtoolsExtensionCompose } from "@redux-devtools/extension";
 import messagesReducer from "./reducers/messagesSlice";
 import usersReducer from "./reducers/usersSlice";
+import disputesReducer from "./reducers/disputesSlice";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const initialState = {
-
   messages: {
     wsReadyStatus: "pending",
     // Backend, not for displaying
@@ -42,16 +42,21 @@ const initialState = {
       },
     },
   },
+  disputes: {
+    fetchedDisputes: [],
+  },
 };
 
 const store = configureStore({
   reducer: {
     messages: messagesReducer,
     users: usersReducer,
+    disputes: disputesReducer,
   },
   preloadedState: {
     messages: initialState.messages,
     users: initialState.users,
+    disputes: initialState.disputes,
   },
   // @ts-ignore
   composeEnhancers,

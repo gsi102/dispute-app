@@ -1,18 +1,25 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../hooks/hooks";
-import { createNewDisputeThunk } from "../store/reducers/createDisputeSliceThunk";
+import { createNewDisputeThunk } from "../store/reducers/disputesSliceThunk";
 
 const NewDisputeOptions: React.FC<any> = (props) => {
   const { state }: any = useLocation();
-  const dispath = useAppDispatch();
-
   const { senderParticipant, invitedParticipant } = state;
+  const dispath = useAppDispatch();
+  const navigate = useNavigate();
 
   const createNewDispute = async () => {
     let response = await dispath(
       createNewDisputeThunk({ senderParticipant, invitedParticipant })
     );
+    // const link = response.payload.data;
+    // const status = response.payload.status;
+    // if (status === 200) {
+    //   // navigate(`/${link}`);
+    //   // navigate(`/debates-page`);
+    //   // console.log(link, status);
+    // }
   };
 
   return (

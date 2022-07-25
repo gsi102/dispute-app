@@ -8,8 +8,15 @@ import { MessageItemProps } from "../../types/types";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
   const dispatch = useAppDispatch();
-  let { id, user, likes, messageBody, isDeleted, deletedText } = props.message;
-  const userLogin = useAppSelector((state) => state.users.userData.login);
+  let {
+    id,
+    userLogin,
+    likes,
+    messageBody,
+    isDeleted,
+    deletedText,
+  } = props.message;
+  const currentUser = useAppSelector((state) => state.users.userData.login);
   // Name of state
   const flag = props.flag;
   const asyncRequestToServer = function(type: string) {
@@ -18,7 +25,7 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
         let response = await dispatch(
           updateMessageThunk({
             id,
-            userLogin,
+            currentUser,
             flag,
             textContainer,
             type,
@@ -55,7 +62,7 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
   return (
     <div className="message-item">
       <div className="message-name-and-text">
-        <div className="message-name">{user}:&nbsp;</div>
+        <div className="message-name">{userLogin}:&nbsp;</div>
         <div className="message-text">{messageBody}</div>
       </div>
       {likes !== null && !isDeleted ? (
