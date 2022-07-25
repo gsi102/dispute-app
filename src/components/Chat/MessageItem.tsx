@@ -1,17 +1,12 @@
 import React from "react";
-<<<<<<< HEAD
+
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import Likes from "./Likes";
-import { updateMessageThunk } from "../../store/reducers/messagesSlice";
-=======
-import { useAppDispatch } from "../../hooks/hooks";
-import Likes from "./Likes";
-import { deleteAndReturnOrLikeMessageThunk } from "../../store/reducers/messagesSlice";
->>>>>>> 0d3c365a43e7235d04b0350634b5dfa586a669b2
+import { updateMessageThunk } from "../../store/reducers/messagesSliceThunk";
+
 import { MessageItemProps } from "../../types/types";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
-
   const dispatch = useAppDispatch();
   let { id, user, likes, messageBody, isDeleted, deletedText } = props.message;
   const userLogin = useAppSelector((state) => state.users.userData.login);

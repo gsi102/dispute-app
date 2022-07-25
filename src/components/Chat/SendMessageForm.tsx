@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Input from "../UI/inputs/Input.jsx";
 import Button from "../UI/buttons/Button.jsx";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { sendMessageThunk } from "../../store/reducers/messagesSlice";
+import { sendMessageThunk } from "../../store/reducers/messagesSliceThunk";
 import { FlagAsProps } from "../../types/types";
 
 const SendMessageForm: React.FC<FlagAsProps> = function(props) {
@@ -15,7 +15,6 @@ const SendMessageForm: React.FC<FlagAsProps> = function(props) {
   const wsReadyStatus = useAppSelector((state) => state.messages.wsReadyStatus);
 
   const sendMessage = async (): Promise<void> => {
-
     try {
       const response = await dispatch(
         sendMessageThunk({ flag, userID, userLogin, messageInput })

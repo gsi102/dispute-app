@@ -11,7 +11,7 @@ export const messagesAPI = {
   getMessages: (flag) => {
     return instance.get(`/messages/${flag}`).then((response) => response);
   },
-  
+
   updateMessage: (id, user, flag, textContainer, type) => {
     return instance
       .patch(`/messages/${flag}/${id}`, {
@@ -49,5 +49,17 @@ export const usersAPI = {
     if (safeLogin === "")
       return { status: 204, statusText: "Input field is empty" };
     return instance.get(`/users/${safeLogin}`).then((response) => response);
+  },
+};
+
+export const disputesAPI = {
+  createNewDispute: (senderParticipant, invitedParticipant) => {
+    const newDisputeData = {
+      senderParticipant,
+      invitedParticipant,
+    };
+    return instance
+      .post(`/create-dispute`, newDisputeData)
+      .then((response) => response);
   },
 };

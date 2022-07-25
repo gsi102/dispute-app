@@ -4,7 +4,7 @@ import Button from "./UI/buttons/Button";
 import { useAppDispatch } from "../hooks/hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { signInThunk } from "../store/reducers/usersSlice";
+import { signInThunk } from "../store/reducers/usersSliceThunk";
 import { LocationType } from "../types/types";
 
 const Login: React.FC = () => {

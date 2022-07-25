@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import MessageItem from "./MessageItem";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
-import { fetchedMessagesThunk } from "../../store/reducers/messagesSlice";
+import { fetchedMessagesThunk } from "../../store/reducers/messagesSliceThunk";
 import { Message, FlagAsProps } from "../../types/types";
 
 const Chat: React.FC<FlagAsProps> = function(props) {
@@ -12,7 +12,6 @@ const Chat: React.FC<FlagAsProps> = function(props) {
   );
 
   const firstLoadMessages = useEffect(() => {
-
     let canceled = false;
     // Doesn't work. WHY?
     if (!canceled) {

@@ -3,10 +3,9 @@ import { useAppDispatch } from "../hooks/hooks";
 import { useNavigate } from "react-router-dom";
 import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
-import { signUpThunk } from "../store/reducers/usersSlice";
+import { signUpThunk } from "../store/reducers/usersSliceThunk";
 
 const Registrarion: React.FC = () => {
-
   const [loginInput, setLoginInput] = useState<string>("");
   const [emailInput, setEmailInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
