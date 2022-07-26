@@ -6,20 +6,19 @@ import { createNewDisputeThunk } from "../store/reducers/disputesSliceThunk";
 const NewDisputeOptions: React.FC<any> = (props) => {
   const { state }: any = useLocation();
   const { senderParticipant, invitedParticipant } = state;
-  const dispath = useAppDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const createNewDispute = async () => {
-    let response = await dispath(
+    let response = await dispatch(
       createNewDisputeThunk({ senderParticipant, invitedParticipant })
     );
-    // const link = response.payload.data;
-    // const status = response.payload.status;
-    // if (status === 200) {
-    //   // navigate(`/${link}`);
-    //   // navigate(`/debates-page`);
-    //   // console.log(link, status);
-    // }
+    const disputeID = response.payload.data;
+    const status = response.payload.status;
+
+    if (status === 200) {
+      navigate(`/debates-page/${disputeID}`);
+    }
   };
 
   return (

@@ -43,7 +43,7 @@ const messagesSlice = createSlice({
   initialState,
   reducers: {
     // Update messages list
-    setMessages(state, action: PayloadAction<FetchedMessagesPayloadType>) {
+    setMessages(state, action: PayloadAction<any>) {
       const flag = action.payload.flag;
       state[flag] = [...action.payload.fetchedMessages];
       state.showMessages[flag] = [...state[flag]];

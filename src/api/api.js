@@ -14,18 +14,18 @@ export const messagesAPI = {
       .then((response) => response);
   },
 
-  updateMessage: (id, currentUser, flag, textContainer, type) => {
+  updateMessage: (id, currentUser, updateTarget, textContainer, type) => {
     return instance
-      .patch(`/messages/${flag}/${id}`, {
+      .patch(`/messages/${updateTarget}/${id}`, {
         currentUser,
         textContainer,
         type,
       })
       .then((response) => response.data);
   },
-  newMessage: (flag, userID, userLogin, messageInput) => {
+  newMessage: (fetchTarget, userID, userLogin, messageInput) => {
     return instance
-      .post(`/messages/${flag}`, {
+      .post(`/messages/${fetchTarget}`, {
         userID,
         userLogin,
         messageInput,
@@ -44,7 +44,10 @@ export const usersAPI = {
       .then((response) => response);
   },
   signUp: (credentials) => {
-    return instance.post(`/sign-up`, credentials).then((response) => response);
+    return instance.post(`/sign-up`, credentials).then((response) => {
+      const responseData = { data: response.data, status: response.status };
+      return responseData;
+    });
   },
   fetchUsers: (searchByLogin) => {
     let safeLogin = encodeURIComponent(searchByLogin);
@@ -61,6 +64,12 @@ export const disputesAPI = {
       invitedParticipant,
     };
     return instance.post(`/create-dispute`, newDisputeData).then((response) => {
+      const responseData = { data: response.data, status: response.status };
+      return responseData;
+    });
+  },
+  getAllDisputes: () => {
+    return instance.get(`/disputes`).then((response) => {
       const responseData = { data: response.data, status: response.status };
       return responseData;
     });

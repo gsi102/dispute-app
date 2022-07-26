@@ -1,5 +1,8 @@
 import { createSlice, PayloadAction, current } from "@reduxjs/toolkit";
-import { createNewDisputeThunk } from "./disputesSliceThunk";
+import {
+  createNewDisputeThunk,
+  getAllDisputesThunk,
+} from "./disputesSliceThunk";
 
 const initialState: any = {};
 
@@ -7,7 +10,14 @@ export const createDisputesSlice = createSlice({
   name: "createDispute",
   initialState,
   reducers: {
-    addDisputes(state, action: PayloadAction<any>) {
+    //may be not needed
+    setCurrentDispute(state, action) {
+      state.currentDispute.id = action.payload.disputeID;
+    },
+    fetchDisputes(state, action) {
+      state.fetchedDisputes = [...action.payload.fetchedDisputes];
+    },
+    addDisputes(state, action) {
       state.fetchedDisputes = [
         ...state.fetchedDisputes,
         action.payload.newDispute,
@@ -16,9 +26,14 @@ export const createDisputesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(createNewDisputeThunk.fulfilled, (state, action) => {});
+    builder.addCase(getAllDisputesThunk.fulfilled, (state, action) => {});
   },
 });
 
-export const { addDisputes } = createDisputesSlice.actions;
+export const {
+  fetchDisputes,
+  setCurrentDispute,
+  addDisputes,
+} = createDisputesSlice.actions;
 
 export default createDisputesSlice.reducer;

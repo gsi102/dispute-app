@@ -5,9 +5,9 @@ import Likes from "./Likes";
 import { updateMessageThunk } from "../../store/reducers/messagesSliceThunk";
 
 import { MessageItemProps } from "../../types/types";
+import { useLocation } from "react-router-dom";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
-  const dispatch = useAppDispatch();
   let {
     id,
     userLogin,
@@ -16,9 +16,16 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
     isDeleted,
     deletedText,
   } = props.message;
+  const dispatch = useAppDispatch();
+  const location: any = useLocation();
   const currentUser = useAppSelector((state) => state.users.userData.login);
-  // Name of state
-  const flag = props.flag;
+  let flag: any = /(^.*)_/gm.exec(id);
+  flag = flag[1];
+
+  let disputeID: any = /^.*\/(.*)/gm.exec(location.pathname);
+  disputeID = disputeID[1];
+  const updateTarget = flag + "_" + disputeID;
+
   const asyncRequestToServer = function(type: string) {
     const request = async (textContainer: string, type: string) => {
       try {
@@ -26,7 +33,7 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
           updateMessageThunk({
             id,
             currentUser,
-            flag,
+            updateTarget,
             textContainer,
             type,
           })

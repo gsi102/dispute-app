@@ -20,7 +20,7 @@ export type FlagAsProps = {
 export type MessageAsProps = {
   message: Message;
 };
-export type MessageItemProps = FlagAsProps & MessageAsProps;
+export type MessageItemProps = MessageAsProps;
 export type LikesProps = {
   likes: Likes;
   asyncRequestToServer: (arg: string) => void;

@@ -7,16 +7,16 @@ import { setMessages } from "./messagesSlice";
 type Flag = string;
 
 type SendMessageType = {
-  flag: Flag;
+  fetchTarget: string;
   userID: string;
   userLogin: string;
   messageInput: string;
 };
 
 type UpdateMessageType = {
-  flag: Flag;
   id: string;
   currentUser: string;
+  updateTarget: string;
   textContainer: string;
   type: string;
 };
@@ -27,8 +27,9 @@ export const fetchedMessagesThunk = createAsyncThunk<
   {
     dispatch: AppDispatch;
   }
->("messages/fetchedMessagesThunk", async ({ flag, fetchTarget }, thunkAPI) => {
-  let response = await messagesAPI.getMessages(flag);
+>("messages/fetchedMessagesThunk", async ({ flag, disputeID }, thunkAPI) => {
+  const fetchTarget = flag + "_" + disputeID;
+  let response = await messagesAPI.getMessages(fetchTarget);
   const fetchedMessages = [...response.data];
 
   if (response.status === 200) {
@@ -45,9 +46,9 @@ export const sendMessageThunk = createAsyncThunk<
   }
 >(
   "messages/sendMessageThunk",
-  async ({ flag, userID, userLogin, messageInput }, thunkAPI) => {
+  async ({ fetchTarget, userID, userLogin, messageInput }, thunkAPI) => {
     let response = await messagesAPI.newMessage(
-      flag,
+      fetchTarget,
       userID,
       userLogin,
       messageInput
@@ -58,7 +59,7 @@ export const sendMessageThunk = createAsyncThunk<
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       const wsPayload = {
         id: newMessage.id,
-        fetchTarget: flag,
+        target: fetchTarget,
         type: "NEW_MESSAGE",
       };
       wsConnection.onopen = () => {
@@ -77,11 +78,11 @@ export const updateMessageThunk = createAsyncThunk<
   }
 >(
   "messages/updateMessageThunk",
-  async ({ id, currentUser, flag, textContainer, type }, thunkAPI) => {
+  async ({ id, currentUser, updateTarget, textContainer, type }, thunkAPI) => {
     let response = await messagesAPI.updateMessage(
       id,
       currentUser,
-      flag,
+      updateTarget,
       textContainer,
       type
     );
@@ -90,7 +91,7 @@ export const updateMessageThunk = createAsyncThunk<
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       const wsPayload = {
         id,
-        fetchTarget: flag,
+        target: updateTarget,
         type: "UPDATE_MESSAGE",
       };
       wsConnection.onopen = () => {

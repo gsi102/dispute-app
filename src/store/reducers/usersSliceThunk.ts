@@ -62,15 +62,13 @@ export const signUpThunk = createAsyncThunk<
   // prettier-ignore
   try {
     response = await usersAPI.signUp(credentials);
-    if (response.status === 200) {
-      // Check another options
+    if (response.status === 201) {
       navigateOnSuccess();
     }
   } catch (err:any) {
     if (err.response.status === 409) {
       alert(err.response.data);
     }
-
   }
   return response;
 });
@@ -97,8 +95,6 @@ export const searchUsersThunk = createAsyncThunk<
   } catch (err) {
     alert("Error(console");
     console.log(err);
-    // fetchedUsers = [];
-    // thunkAPI.dispatch(searchUsers({ fetchedUsers }));
   }
 
   return response.status;

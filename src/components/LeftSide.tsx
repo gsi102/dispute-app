@@ -1,19 +1,41 @@
 import React, { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useAppSelector } from "../hooks/hooks";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { getAllDisputesThunk } from "../store/reducers/disputesSliceThunk";
 
 const LeftSide: React.FC = () => {
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   let fetchedDisputes = useAppSelector(
     (state: any) => state.disputes.fetchedDisputes
   );
+  // Load list of disputes
+  useEffect(() => {
+    dispatch(getAllDisputesThunk({}));
+  }, []);
 
-  useEffect(() => {}, []);
+  const redirect = (id: string) => {
+    navigate(`/debates-page/${id}`);
+  };
 
   return (
     <div className="leftside">
-      {fetchedDisputes.map((el: any) => {
-        <h1>{el.senderParticipant}</h1>;
-      })}
+      {/* <div onClick={redirect1}>Dispute1</div>
+      <div onClick={redirect2}>Dispute2</div> */}
+      <div>
+        {fetchedDisputes.map((el: any) => {
+          return (
+            <div
+              onClick={() => {
+                redirect(el.id);
+              }}
+              key={el.id}
+            >
+              {el.invitedParticipant} VS {el.senderParticipant}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

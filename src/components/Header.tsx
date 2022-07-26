@@ -10,7 +10,6 @@ const Header: React.FC = () => {
     <header className="header">
       <div className="header-block">
         <Link to="/">Main</Link>
-        <Link to="/debates-page">All Disputes</Link>
         <Link to="/create-dispute">Create Dispute</Link>
         {/* {isAuth ? <Link to="/create-dipuste">Create Dispute</Link> : ""} */}
       </div>

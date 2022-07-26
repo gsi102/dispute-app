@@ -4,24 +4,20 @@ import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 import { fetchedMessagesThunk } from "../../store/reducers/messagesSliceThunk";
 import { Message, FlagAsProps } from "../../types/types";
 
-const Chat: React.FC<FlagAsProps> = function(props) {
+const Chat: React.FC<any> = function(props) {
+  const { flag, disputeID } = props;
   const dispatch = useAppDispatch();
-  const flag = props.flag;
-  let fetchTarget: string[] | string | null = flag.match(/(.*?)Messages/gm);
-  // For TS
-  fetchTarget ? (fetchTarget = fetchTarget[1]) : "";
-
-  let messages = useAppSelector(
+  const messages = useAppSelector(
     (state: any) => state.messages.showMessages[flag]
   );
-
-  const firstLoadMessages = useEffect(() => {
+  // Load messages from DB
+  useEffect(() => {
     let canceled = false;
     if (!canceled) {
       const fetched = async () => {
         try {
           const response = await dispatch(
-            fetchedMessagesThunk({ flag, fetchTarget })
+            fetchedMessagesThunk({ flag, disputeID })
           ).unwrap();
         } catch (err) {
           console.error(err);
@@ -33,13 +29,13 @@ const Chat: React.FC<FlagAsProps> = function(props) {
     return function cleanUp() {
       canceled = true;
     };
-  }, []);
+  }, [disputeID]);
 
   if (messages[0]) {
     return (
       <div className="chat">
         {messages.map((message: Message) => (
-          <MessageItem flag={flag} message={message} key={message.id} />
+          <MessageItem message={message} key={message.id} />
         ))}
       </div>
     );

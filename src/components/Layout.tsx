@@ -6,8 +6,8 @@ import Footer from "./Footer";
 
 import { useAppDispatch } from "../hooks/hooks";
 import { addMessages, updateMessages } from "../store/reducers/messagesSlice";
-import { addDisputes } from "../store/reducers/disputesSlice";
 import { wsConnectFunction } from "../api/wsConnection";
+import { addDisputes } from "../store/reducers/disputesSlice";
 
 const Layout: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -22,17 +22,17 @@ const Layout: React.FC = () => {
       wsConnection.addEventListener("message", (e: any) => {
         const data = JSON.parse(e.data)[0];
         const regex = /(.*)\_/;
-        const fetchTarget: any = regex.exec(data.id);
+        const target: any = regex.exec(data.target);
 
         switch (data.type) {
           case "NEW_MESSAGE":
             const newMessage = data;
-            dispatch(addMessages({ newMessage, flag: fetchTarget[1] }));
+            dispatch(addMessages({ newMessage, flag: target[1] }));
             break;
           case "UPDATE_MESSAGE":
             const updatedMessage = data;
             delete updatedMessage.type;
-            dispatch(updateMessages({ updatedMessage, flag: fetchTarget[1] }));
+            dispatch(updateMessages({ updatedMessage, flag: target[1] }));
             break;
           case "NEW_DISPUTE":
             const newDispute = data;

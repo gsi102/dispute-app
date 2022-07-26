@@ -15,21 +15,12 @@ import NewDisputeOptions from "./components/NewDisputeOptions";
 import "./styles/App.css";
 
 function App() {
-  
   return (
     <>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-
-          <Route
-            path="debates-page"
-            element={
-              <RequireAuth>
-                <DebatesPage />
-              </RequireAuth>
-            }
-          />
+          <Route path="debates-page/:id" element={<DebatesPage />} />
           <Route
             path="create-dispute"
             element={

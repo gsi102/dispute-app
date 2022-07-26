@@ -9,17 +9,17 @@ const initialState = {
   messages: {
     wsReadyStatus: "pending",
     // Backend, not for displaying
-    disputeMessages: [],
-    specMessages: [],
+    dispute: [],
+    spec: [],
     // For searching and displaying
     showMessages: {
-      disputeMessages: [],
-      specMessages: [],
+      dispute: [],
+      spec: [],
     },
     // Source for messages id.
     flagSource: {
-      disputeChat: "disputeMessages",
-      spectatorChat: "specMessages",
+      disputeChat: "dispute",
+      spectatorChat: "spec",
     },
   },
   users: {
@@ -43,6 +43,7 @@ const initialState = {
     },
   },
   disputes: {
+    currentDispute: {},
     fetchedDisputes: [],
   },
 };

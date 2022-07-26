@@ -5,19 +5,20 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { sendMessageThunk } from "../../store/reducers/messagesSliceThunk";
 import { FlagAsProps } from "../../types/types";
 
-const SendMessageForm: React.FC<FlagAsProps> = function(props) {
+const SendMessageForm: React.FC<any> = function(props) {
+  const { flag, disputeID } = props;
   const [messageInput, setMessageInput] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-  const flag = props.flag;
   const userLogin = useAppSelector((state) => state.users.userData.login);
   const userID = useAppSelector((state) => state.users.userData.id);
   const wsReadyStatus = useAppSelector((state) => state.messages.wsReadyStatus);
 
   const sendMessage = async (): Promise<void> => {
     try {
+      const fetchTarget = flag + "_" + disputeID;
       const response = await dispatch(
-        sendMessageThunk({ flag, userID, userLogin, messageInput })
+        sendMessageThunk({ fetchTarget, userID, userLogin, messageInput })
       ).unwrap();
     } catch (err) {
       console.error(err);
