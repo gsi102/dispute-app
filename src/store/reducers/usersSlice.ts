@@ -8,12 +8,21 @@ const usersSlice = createSlice({
   name: "users",
   initialState,
   reducers: {
+    setIsLoading(state, action) {
+      state.isLoading[action.payload.target] = action.payload.isLoading;
+    },
     setAuth(state, action) {
-      state.isAuth = true;
+      state.isAuth = action.payload.isAuth;
     },
     setUser(state, action: PayloadAction<any>) {
-      for (let [key, value] of Object.entries(action.payload.userData)) {
-        state.userData[key] = value;
+      if (action.payload.userData !== "reset") {
+        for (let [key, value] of Object.entries(action.payload.userData)) {
+          state.userData[key] = value;
+        }
+      } else {
+        for (let [key, value] of Object.entries(state.userData)) {
+          state.userData[key] = "";
+        }
       }
     },
     searchUsers(state, action: PayloadAction<any>) {
@@ -29,6 +38,11 @@ const usersSlice = createSlice({
   },
 });
 
-export const { setAuth, setUser, searchUsers } = usersSlice.actions;
+export const {
+  setIsLoading,
+  setAuth,
+  setUser,
+  searchUsers,
+} = usersSlice.actions;
 
 export default usersSlice.reducer;

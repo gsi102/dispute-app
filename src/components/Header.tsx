@@ -1,10 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { setAuth, setUser } from "../store/reducers/usersSlice";
 
 const Header: React.FC = () => {
+  const dispatch = useAppDispatch();
   const isAuth = useAppSelector((state) => state.users.isAuth);
   const userLogin = useAppSelector((state) => state.users.userData.login);
+
+  const logout = () => {
+    dispatch(setAuth({ isAuth: false }));
+    dispatch(setUser({ userData: "reset" }));
+  };
 
   return (
     <header className="header">
@@ -16,6 +23,7 @@ const Header: React.FC = () => {
       <div className="logo"></div>
       <div className="header-block">
         {isAuth ? <Link to="/profile">Profile: {userLogin}</Link> : ""}
+        {isAuth ? <div onClick={logout}>Logout</div> : ""}
         {!isAuth ? <Link to="/login">Login</Link> : ""}
         {!isAuth ? <Link to="/registration">Registration</Link> : ""}
       </div>

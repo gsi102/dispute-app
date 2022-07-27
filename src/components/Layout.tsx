@@ -17,12 +17,12 @@ const Layout: React.FC = () => {
     wsConnectFunction(dispatch, setWsConnection);
   }, []);
 
-  const messagesListener = useEffect(() => {
+  const wsListener = useEffect(() => {
     if (wsConnection) {
       wsConnection.addEventListener("message", (e: any) => {
         const data = JSON.parse(e.data)[0];
-        const regex = /(.*)\_/;
-        const target: any = regex.exec(data.target);
+        const re = /(.*)\_/;
+        const target: any = re.exec(data.target);
 
         switch (data.type) {
           case "NEW_MESSAGE":

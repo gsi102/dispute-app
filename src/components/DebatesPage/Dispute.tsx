@@ -9,23 +9,14 @@ const Dispute: React.FC<any> = function(props) {
   const disputeID = props.disputeID;
   const dispatch = useAppDispatch();
   const flag = useAppSelector((state) => state.messages.flagSource.disputeChat);
-
-  // const currentUserLogin = useAppSelector(
-  //   (state) => state.users.userData.login
-  // );
-  // const fetchedDisputes = useAppSelector(
-  //   (state: any) => state.disputes.fetchedDisputes
-  // );
-  // const currentDisputeID = useAppSelector(
-  //   (state: any) => state.disputes.currentDispute.id
-  // );
-
-  // const senderParticipant = useAppSelector(
-  //   (state) => state.disputes.currentDispute.senderParticipant
-  // );
-  // const invitedParticipant = useAppSelector(
-  //   (state) => state.disputes.currentDispute.invitedParticipant
-  // );
+  const currentDispute: any = useAppSelector(
+    (state) => state.disputes.currentDispute
+  );
+  const currentUserLogin = useAppSelector(
+    (state) => state.users.userData.login
+  );
+  const senderParticipant = currentDispute.senderParticipant;
+  const invitedParticipant = currentDispute.invitedParticipant;
 
   const searchCallback = (searchByText: string) => {
     dispatch(searchMessages({ searchByText, flag }));
@@ -38,7 +29,12 @@ const Dispute: React.FC<any> = function(props) {
         <p>Welcome to debates!</p>
         <Chat flag={flag} disputeID={disputeID} />
       </div>
-      <SendMessageForm flag={flag} disputeID={disputeID} />
+      {currentUserLogin === senderParticipant ||
+      currentUserLogin === invitedParticipant ? (
+        <SendMessageForm flag={flag} disputeID={disputeID} />
+      ) : (
+        ""
+      )}
     </div>
   );
 };

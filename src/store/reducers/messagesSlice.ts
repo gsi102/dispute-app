@@ -42,6 +42,9 @@ const messagesSlice = createSlice({
   name: "messages",
   initialState,
   reducers: {
+    setIsLoading: (state, action) => {
+      state.isLoading[action.payload.target] = action.payload.isLoading;
+    },
     // Update messages list
     setMessages(state, action: PayloadAction<any>) {
       const flag = action.payload.flag;
@@ -93,6 +96,7 @@ const messagesSlice = createSlice({
 });
 
 export const {
+  setIsLoading,
   setMessages,
   searchMessages,
   addMessages,

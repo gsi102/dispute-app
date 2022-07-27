@@ -19,10 +19,12 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
   const dispatch = useAppDispatch();
   const location: any = useLocation();
   const currentUser = useAppSelector((state) => state.users.userData.login);
-  let flag: any = /(^.*)_/gm.exec(id);
+  const isAuth = useAppSelector((state) => state.users.isAuth);
+  const re1 = /(^.*)_/gm;
+  let flag: any = re1.exec(id);
   flag = flag[1];
-
-  let disputeID: any = /^.*\/(.*)/gm.exec(location.pathname);
+  const re2 = /^.*\/(.*)/gm;
+  let disputeID: any = re2.exec(location.pathname);
   disputeID = disputeID[1];
   const updateTarget = flag + "_" + disputeID;
 
@@ -67,17 +69,31 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
   }
 
   return (
-    <div className="message-item">
+    <div className="messageItem">
+      <div className="messageSender">{userLogin}</div>
       <div className="message-name-and-text">
-        <div className="message-name">{userLogin}:&nbsp;</div>
         <div className="message-text">{messageBody}</div>
       </div>
-      {likes !== null && !isDeleted ? (
+      {likes !== null && !isDeleted && isAuth ? (
         <Likes asyncRequestToServer={asyncRequestToServer} likes={likes} />
       ) : null}
-      <div onClick={() => asyncRequestToServer("delete")}>DEL</div>
-      <div onClick={() => asyncRequestToServer("return")}>Return</div>
-      <div className="message-time">
+      <div className="messageActionsWrapper">
+        <div className="messageActions">
+          <div
+            className="delMessage"
+            onClick={() => asyncRequestToServer("delete")}
+          >
+            DEL
+          </div>
+          <div
+            className="retMessage"
+            onClick={() => asyncRequestToServer("return")}
+          >
+            Return
+          </div>
+        </div>
+      </div>
+      <div className="messageTime">
         {dateHh}:{dateMm}
       </div>
     </div>

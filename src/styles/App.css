@@ -4,7 +4,6 @@
 }
 
 * {
-
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -24,6 +23,10 @@ html {
 
 .wrapper {
   width: 100%;
+}
+
+.preloader {
+  content: url("./assets/preloader/48x48.gif");
 }
 
 /* HEADER BLOCK */
@@ -118,10 +121,77 @@ html {
   height: 80%;
 }
 
-.message-item,
+.messageItem,
 .message-name-and-text {
   display: flex;
   justify-content: space-between;
+}
+
+.messageItem {
+  position: relative;
+  width: 70%;
+  border: 1px solid rgb(80, 80, 80, 0.1);
+  margin: 1rem 0;
+  padding: 1rem 1rem;
+}
+.messageSender {
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  font-weight: bold;
+}
+
+.messageActionsWrapper {
+  z-index: 100;
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  content: "";
+  width: 16px;
+  height: 16px;
+  background-color: rgb(80, 80, 80, 0.2);
+  border-radius: 15%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.messageActionsWrapper:before {
+  position: absolute;
+  content: "";
+  width: 4px;
+  height: 4px;
+  background-color: black;
+}
+
+.messageActionsWrapper > * {
+  display: none;
+}
+
+.messageActionsWrapper:hover > * {
+  display: block;
+  margin: 35px 0 0 -100px;
+  min-width: 100px;
+  height: 2.5rem;
+  background-color: white;
+  border: 1px solid rgb(80, 80, 80, 0.1);
+}
+
+.messageActionsWrapper:hover:before {
+  display: none;
+}
+
+.messageActions > *:hover {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.messageTime {
+  position: absolute;
+  right: 10px;
+  bottom: 5px;
+  font-size: small;
+  color: rgb(80, 80, 80, 0.5);
 }
 
 .userLogin {

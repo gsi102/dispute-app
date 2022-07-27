@@ -1,9 +1,7 @@
 import * as axios from "axios";
 
-const serverName = "http://localhost:3003";
-
 const instance = axios.create({
-  baseURL: serverName,
+  baseURL: "http://localhost:3003",
   withCredentials: true,
 });
 
@@ -70,6 +68,12 @@ export const disputesAPI = {
   },
   getAllDisputes: () => {
     return instance.get(`/disputes`).then((response) => {
+      const responseData = { data: response.data, status: response.status };
+      return responseData;
+    });
+  },
+  getCurrentDispute: (disputeID) => {
+    return instance.get(`/disputes/${disputeID}`).then((response) => {
       const responseData = { data: response.data, status: response.status };
       return responseData;
     });

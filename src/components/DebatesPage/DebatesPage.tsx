@@ -3,18 +3,20 @@ import Participants from "./Participants";
 import Dispute from "./Dispute";
 import Spectators from "./Spectators";
 import { useLocation } from "react-router-dom";
-import { useAppDispatch } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { setCurrentDispute } from "../../store/reducers/disputesSlice";
+import { getCurrentDisputeThunk } from "../../store/reducers/disputesSliceThunk";
 
 const DebatesPage: React.FC<any> = (props) => {
   const dispatch = useAppDispatch();
   const location: any = useLocation();
-  const regex = /^.*\/(.*)/gm;
-  let disputeID: any = regex.exec(location.pathname);
+
+  const re = /^.*\/(.*)/gm;
+  let disputeID: any = re.exec(location.pathname);
   disputeID = disputeID[1];
 
   useEffect(() => {
-    dispatch(setCurrentDispute({ disputeID }));
+    dispatch(getCurrentDisputeThunk({ disputeID }));
   }, [disputeID]);
 
   return (

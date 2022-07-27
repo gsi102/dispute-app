@@ -10,9 +10,8 @@ export const createDisputesSlice = createSlice({
   name: "createDispute",
   initialState,
   reducers: {
-    //may be not needed
     setCurrentDispute(state, action) {
-      state.currentDispute.id = action.payload.disputeID;
+      state.currentDispute = { ...action.payload.currentDispute };
     },
     fetchDisputes(state, action) {
       state.fetchedDisputes = [...action.payload.fetchedDisputes];

@@ -5,8 +5,13 @@ import usersReducer from "./reducers/usersSlice";
 import disputesReducer from "./reducers/disputesSlice";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const initialState = {
   messages: {
+    isLoading: {
+      dispute: false,
+      spec: false,
+    },
     wsReadyStatus: "pending",
     // Backend, not for displaying
     dispute: [],
@@ -23,6 +28,11 @@ const initialState = {
     },
   },
   users: {
+    isLoading: {
+      searchOpponentForDispute: false,
+      signIn: false,
+      signUp: false,
+    },
     isAuth: false,
     fetchedUsers: [],
     userData: {

@@ -4,11 +4,11 @@ import SendMessageForm from "../Chat/SendMessageForm";
 import { useAppSelector } from "../../hooks/hooks";
 
 const Spectators: React.FC<any> = function(props) {
+  const isAuth = useAppSelector((state) => state.users.isAuth);
   const flag = useAppSelector(
     (state) => state.messages.flagSource.spectatorChat
   );
   const disputeID = props.disputeID;
-  // const disputeID = useAppSelector((state) => state.disputes.currentDispute);
 
   return (
     <div className="spectators">
@@ -16,7 +16,7 @@ const Spectators: React.FC<any> = function(props) {
         <p> Welcome to spec chat!</p>
         <Chat flag={flag} disputeID={disputeID} />
       </div>
-      <SendMessageForm flag={flag} disputeID={disputeID} />
+      {isAuth ? <SendMessageForm flag={flag} disputeID={disputeID} /> : ""}
     </div>
   );
 };

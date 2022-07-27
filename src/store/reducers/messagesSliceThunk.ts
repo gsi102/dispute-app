@@ -2,12 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store.js";
 
 import { messagesAPI } from "../../api/api.js";
-import { setMessages } from "./messagesSlice";
+import { setMessages, setIsLoading } from "./messagesSlice";
 
 type Flag = string;
 
 type SendMessageType = {
-  fetchTarget: string;
+  flag: string;
+  disputeID: string;
   userID: string;
   userLogin: string;
   messageInput: string;
@@ -46,27 +47,35 @@ export const sendMessageThunk = createAsyncThunk<
   }
 >(
   "messages/sendMessageThunk",
-  async ({ fetchTarget, userID, userLogin, messageInput }, thunkAPI) => {
-    let response = await messagesAPI.newMessage(
-      fetchTarget,
-      userID,
-      userLogin,
-      messageInput
-    );
-    const newMessage = response.data;
-
-    if (response.status) {
-      const wsConnection = new WebSocket(`ws://localhost:3008/`);
-      const wsPayload = {
-        id: newMessage.id,
-        target: fetchTarget,
-        type: "NEW_MESSAGE",
-      };
-      wsConnection.onopen = () => {
-        wsConnection.send(JSON.stringify(wsPayload));
-        wsConnection.close();
-      };
+  async ({ flag, disputeID, userID, userLogin, messageInput }, thunkAPI) => {
+    const fetchTarget = flag + "_" + disputeID;
+    let response;
+    try {
+      thunkAPI.dispatch(setIsLoading({ target: flag, isLoading: true }));
+      response = await messagesAPI.newMessage(
+        fetchTarget,
+        userID,
+        userLogin,
+        messageInput
+      );
+      const newMessage = response.data;
+      if (response.status) {
+        const wsConnection = new WebSocket(`ws://localhost:3008/`);
+        const wsPayload = {
+          id: newMessage.id,
+          target: fetchTarget,
+          type: "NEW_MESSAGE",
+        };
+        wsConnection.onopen = () => {
+          wsConnection.send(JSON.stringify(wsPayload));
+          wsConnection.close();
+        };
+      }
+    } catch (err) {
+      alert("Error(console");
+      console.log(err);
     }
+    thunkAPI.dispatch(setIsLoading({ target: flag, isLoading: false }));
   }
 );
 

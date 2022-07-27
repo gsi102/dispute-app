@@ -8,22 +8,14 @@ import { FlagAsProps } from "../../types/types";
 const SendMessageForm: React.FC<any> = function(props) {
   const { flag, disputeID } = props;
   const [messageInput, setMessageInput] = useState<string>("");
+  const isLoading = useAppSelector(
+    (state: any) => state.messages.isLoading[flag]
+  );
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
   const userLogin = useAppSelector((state) => state.users.userData.login);
   const userID = useAppSelector((state) => state.users.userData.id);
   const wsReadyStatus = useAppSelector((state) => state.messages.wsReadyStatus);
-
-  const sendMessage = async (): Promise<void> => {
-    try {
-      const fetchTarget = flag + "_" + disputeID;
-      const response = await dispatch(
-        sendMessageThunk({ fetchTarget, userID, userLogin, messageInput })
-      ).unwrap();
-    } catch (err) {
-      console.error(err);
-    }
-  };
 
   const funcQueue = (): void => {
     const isInputMessage = messageInput.replace(/\s+/g, "");
@@ -31,6 +23,16 @@ const SendMessageForm: React.FC<any> = function(props) {
     // "If" for TS:
     if (inputRef && inputRef.current) inputRef.current.focus();
     setMessageInput("");
+  };
+
+  const sendMessage = async (): Promise<void> => {
+    try {
+      const response = await dispatch(
+        sendMessageThunk({ flag, disputeID, userID, userLogin, messageInput })
+      ).unwrap();
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -45,13 +47,17 @@ const SendMessageForm: React.FC<any> = function(props) {
         onChange={(e: any) => setMessageInput(e.target.value)}
         onKeyDown={(e: any) => (e.key === "Enter" ? funcQueue() : "")}
       />
-      <Button
-        className="send-message-btn"
-        disabled={wsReadyStatus !== "ready"}
-        onClick={funcQueue}
-      >
-        Send
-      </Button>
+      {isLoading || wsReadyStatus !== "ready" ? (
+        <div className="preloader"></div>
+      ) : (
+        <Button
+          className="send-message-btn"
+          disabled={wsReadyStatus !== "ready"}
+          onClick={funcQueue}
+        >
+          Send
+        </Button>
+      )}
     </div>
   );
 };

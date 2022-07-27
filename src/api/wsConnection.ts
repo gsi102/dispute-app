@@ -2,7 +2,6 @@ import { wsConnectionUpdate } from "../store/reducers/messagesSlice";
 
 export const wsConnectFunction = (dispatch: any, setWsConnection: any) => {
   let ws: WebSocket | null = null;
-
   const openHandler = () => {
     console.log("open WS");
     dispatch(wsConnectionUpdate({ status: "ready" }));

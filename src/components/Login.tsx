@@ -1,25 +1,31 @@
 import React, { useState } from "react";
 import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { signInThunk } from "../store/reducers/usersSliceThunk";
 import { LocationType } from "../types/types";
 
 const Login: React.FC = () => {
-  const [loginInput, setLoginInput] = useState<string>("");
-  const [passwordInput, setPasswordInput] = useState<string>("");
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location: LocationType = useLocation();
-  const dispatch = useAppDispatch();
+  const [loginInput, setLoginInput] = useState<string>("");
+  const [passwordInput, setPasswordInput] = useState<string>("");
+  const isLoading = useAppSelector((state) => state.users.isLoading.signIn);
 
   const logIn = async (): Promise<void> => {
     const prevPage = location.state ? location.state.from.pathname : "/";
     const navigateOnSuccess = () => navigate(prevPage, { replace: true });
     try {
       const response = await dispatch(
-        signInThunk({ loginInput, passwordInput, navigateOnSuccess })
+        signInThunk({
+          target: "signIn",
+          loginInput,
+          passwordInput,
+          navigateOnSuccess,
+        })
       ).unwrap();
     } catch (err) {
       alert("error(console");
@@ -45,9 +51,13 @@ const Login: React.FC = () => {
         placeholder="pass"
         onChange={(e: any) => setPasswordInput(e.target.value)}
       />
-      <Button className="login-button" onClick={logIn}>
-        Login
-      </Button>
+      {isLoading ? (
+        <div className="preloader" />
+      ) : (
+        <Button className="login-button" onClick={logIn}>
+          Login
+        </Button>
+      )}
       <div>
         <h1>Not registered?</h1>
         <Link to="/registration">Registration</Link>

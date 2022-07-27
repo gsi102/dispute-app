@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AppDispatch } from "../store.js";
 import { disputesAPI } from "../../api/api";
-import { fetchDisputes } from "./disputesSlice";
+import { fetchDisputes, setCurrentDispute } from "./disputesSlice";
 
 export const getAllDisputesThunk = createAsyncThunk<
   any,
@@ -51,3 +51,19 @@ export const createNewDisputeThunk = createAsyncThunk<
     return response;
   }
 );
+
+export const getCurrentDisputeThunk = createAsyncThunk<
+  any,
+  any,
+  {
+    dispatch: AppDispatch;
+  }
+>("disputes/getCurrentDisputeThunk", async ({ disputeID }, thunkAPI) => {
+  let response: any = await disputesAPI.getCurrentDispute(disputeID);
+
+  if (response.status === 200) {
+    const currentDispute = response.data[0];
+    thunkAPI.dispatch(setCurrentDispute({ currentDispute }));
+  }
+  return response;
+});

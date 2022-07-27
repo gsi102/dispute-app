@@ -6,12 +6,16 @@ import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const CreateDispute: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const fetchedUsers = useAppSelector((state) => state.users.fetchedUsers);
   const currentUser = useAppSelector((state) => state.users.userData.login);
-  const navigate = useNavigate();
-
+  const isLoading = useAppSelector(
+    (state) => state.users.isLoading.searchOpponentForDispute
+  );
   const searchCallback = (searchByLogin: string) => {
-    dispatch(searchUsersThunk({ searchByLogin }));
+    dispatch(
+      searchUsersThunk({ target: "searchOpponentForDispute", searchByLogin })
+    );
   };
 
   const createDispute = (
@@ -30,22 +34,26 @@ const CreateDispute: React.FC = () => {
     <div>
       <h1>Choose your opponent:</h1>
       <SearchField searchCallback={searchCallback} />
-      <div>
-        {fetchedUsers.map((user: any) => {
-          return (
-            <div key={user.id}>
-              {user.login}{" "}
-              <span
-                onClick={() => {
-                  createDispute(currentUser, user.login);
-                }}
-              >
-                Create
-              </span>
-            </div>
-          );
-        })}
-      </div>
+      {!isLoading && fetchedUsers !== [] ? (
+        <div>
+          {fetchedUsers.map((user: any) => {
+            return (
+              <div key={user.id}>
+                {user.login}
+                <span
+                  onClick={() => {
+                    createDispute(currentUser, user.login);
+                  }}
+                >
+                  Create
+                </span>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="preloader"></div>
+      )}
     </div>
   );
 };

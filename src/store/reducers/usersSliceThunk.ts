@@ -1,15 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { usersAPI } from "../../api/api.js";
 import { AppDispatch } from "../store.js";
-import { setAuth, setUser, searchUsers } from "./usersSlice";
+import { setAuth, setUser, searchUsers, setIsLoading } from "./usersSlice";
 
 type SignInArgsType = {
+  target: "signIn";
   loginInput: string;
   passwordInput: string;
   navigateOnSuccess: () => void;
 };
 
 type SignUpArgsType = {
+  target: "signUp";
   credentials: {
     login: string;
     password: string;
@@ -29,15 +31,19 @@ export const signInThunk = createAsyncThunk<
   }
 >(
   "users/signInThunk",
-  async ({ loginInput, passwordInput, navigateOnSuccess }, thunkAPI) => {
+  async (
+    { target, loginInput, passwordInput, navigateOnSuccess },
+    thunkAPI
+  ) => {
     let response;
     try {
+      thunkAPI.dispatch(setIsLoading({ target, isLoading: true }));
       response = await usersAPI.signIn(loginInput, passwordInput);
       // Make one object for serializable data
       response = { ...response.data, status: response.status };
       // Vulnerability
       if (response.status === 200) {
-        thunkAPI.dispatch(setAuth({}));
+        thunkAPI.dispatch(setAuth({ isAuth: true }));
         thunkAPI.dispatch(setUser({ userData: response }));
         navigateOnSuccess();
       }
@@ -45,7 +51,7 @@ export const signInThunk = createAsyncThunk<
       alert("Error(console");
       console.log(err);
     }
-
+    thunkAPI.dispatch(setIsLoading({ target, isLoading: false }));
     return response;
   }
 );
@@ -56,22 +62,27 @@ export const signUpThunk = createAsyncThunk<
   {
     dispatch: AppDispatch;
   }
->("users/signUpThunk", async ({ credentials, navigateOnSuccess }, thunkAPI) => {
-  let response;
-  // Disable Prettier plugin for (err: any)
-  // prettier-ignore
-  try {
-    response = await usersAPI.signUp(credentials);
-    if (response.status === 201) {
-      navigateOnSuccess();
+>(
+  "users/signUpThunk",
+  async ({ target, credentials, navigateOnSuccess }, thunkAPI) => {
+    let response;
+    // Disable Prettier plugin for (err: any)
+    // prettier-ignore
+    try {
+      thunkAPI.dispatch(setIsLoading({target, isLoading: true}))
+      response = await usersAPI.signUp(credentials);
+      if (response.status === 201) {
+        navigateOnSuccess();
+      }
+    } catch (err:any) {
+      if (err.response.status === 409) {
+        alert(err.response.data);
+      }
     }
-  } catch (err:any) {
-    if (err.response.status === 409) {
-      alert(err.response.data);
-    }
+    thunkAPI.dispatch(setIsLoading({ target, isLoading: false }));
+    return response;
   }
-  return response;
-});
+);
 
 export const searchUsersThunk = createAsyncThunk<
   any,
@@ -79,23 +90,27 @@ export const searchUsersThunk = createAsyncThunk<
   {
     dispatch: AppDispatch;
   }
->("messages/updateMessageThunk", async ({ searchByLogin }, thunkAPI) => {
-  let fetchedUsers: Array<any> = [];
-  let response;
-  try {
-    response = await usersAPI.fetchUsers(searchByLogin);
-
-    if (response.status === 200) {
-      fetchedUsers = [...response.data];
-      thunkAPI.dispatch(searchUsers({ fetchedUsers }));
-    } else if (response.status === 204) {
-      fetchedUsers = [];
-      thunkAPI.dispatch(searchUsers({ fetchedUsers }));
+>(
+  "messages/updateMessageThunk",
+  async ({ target, searchByLogin }, thunkAPI) => {
+    let fetchedUsers: Array<any> = [];
+    let response;
+    try {
+      thunkAPI.dispatch(setIsLoading({ target, isLoading: true }));
+      response = await usersAPI.fetchUsers(searchByLogin);
+      if (response.status === 200) {
+        fetchedUsers = [...response.data];
+        thunkAPI.dispatch(searchUsers({ fetchedUsers }));
+      } else if (response.status === 204) {
+        fetchedUsers = [];
+        thunkAPI.dispatch(searchUsers({ fetchedUsers }));
+      }
+      thunkAPI.dispatch(setIsLoading({ target, isLoading: false }));
+    } catch (err) {
+      alert("Error(console");
+      console.log(err);
     }
-  } catch (err) {
-    alert("Error(console");
-    console.log(err);
-  }
 
-  return response.status;
-});
+    return response.status;
+  }
+);

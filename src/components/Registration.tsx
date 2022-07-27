@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { useAppDispatch } from "../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { useNavigate } from "react-router-dom";
 import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
 import { signUpThunk } from "../store/reducers/usersSliceThunk";
 
 const Registrarion: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [loginInput, setLoginInput] = useState<string>("");
   const [emailInput, setEmailInput] = useState<string>("");
   const [passwordInput, setPasswordInput] = useState<string>("");
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-
+  const isLoading = useAppSelector((state) => state.users.isLoading.signUp);
   const signUp = async function(): Promise<void> {
     const navigateOnSuccess = () => navigate("/login", { replace: true });
     const credentials = {
@@ -22,7 +22,7 @@ const Registrarion: React.FC = () => {
 
     try {
       const response = await dispatch(
-        signUpThunk({ credentials, navigateOnSuccess })
+        signUpThunk({ target: "signUp", credentials, navigateOnSuccess })
       ).unwrap();
     } catch (err) {
       console.error(err);
@@ -65,9 +65,13 @@ const Registrarion: React.FC = () => {
         required
         onChange={(e: any) => setPasswordInput(e.target.value)}
       />
-      <Button className="signup-button" onClick={signUp}>
-        Create
-      </Button>
+      {isLoading ? (
+        <div className="preloader" />
+      ) : (
+        <Button className="signup-button" onClick={signUp}>
+          Create
+        </Button>
+      )}
     </div>
   );
 };
