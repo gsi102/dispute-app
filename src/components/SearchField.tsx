@@ -21,7 +21,6 @@ const SearchField: React.FC<searchCallbackType> = (props) => {
     <div>
       <Input
         value={searchText}
-        className="input-search-message"
         type="text"
         placeholder="Find..."
         onChange={funcQueue}

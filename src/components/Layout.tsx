@@ -9,6 +9,8 @@ import { addMessages, updateMessages } from "../store/reducers/messagesSlice";
 import { wsConnectFunction } from "../api/wsConnection";
 import { addDisputes } from "../store/reducers/disputesSlice";
 
+import styles from "../styles/App.module.css";
+
 const Layout: React.FC = () => {
   const dispatch = useAppDispatch();
   const [wsConnection, setWsConnection] = useState<any>(null);
@@ -46,10 +48,10 @@ const Layout: React.FC = () => {
   }, [wsConnection]);
 
   return (
-    <div className="wrapper">
+    <div className={styles.wrapper}>
       <Header />
       <LeftSide />
-      <div className="outlet">
+      <div className={styles.outlet}>
         <Outlet />
       </div>
       <Footer />

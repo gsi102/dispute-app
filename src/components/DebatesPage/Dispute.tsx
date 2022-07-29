@@ -5,6 +5,8 @@ import SendMessageForm from "../Chat/SendMessageForm";
 import { useAppSelector, useAppDispatch } from "../../hooks/hooks";
 import { searchMessages } from "../../store/reducers/messagesSlice";
 
+import styles from "../../styles/App.module.css";
+
 const Dispute: React.FC<any> = function(props) {
   const disputeID = props.disputeID;
   const dispatch = useAppDispatch();
@@ -23,8 +25,8 @@ const Dispute: React.FC<any> = function(props) {
   };
 
   return (
-    <div className="dispute">
-      <div className="chatField">
+    <div className={styles.dispute}>
+      <div className={styles.chatField}>
         <SearchField searchCallback={searchCallback} />
         <p>Welcome to debates!</p>
         <Chat flag={flag} disputeID={disputeID} />

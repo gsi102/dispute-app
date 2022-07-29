@@ -29,15 +29,28 @@ export const fetchedMessagesThunk = createAsyncThunk<
     dispatch: AppDispatch;
   }
 >("messages/fetchedMessagesThunk", async ({ flag, disputeID }, thunkAPI) => {
-  const fetchTarget = flag + "_" + disputeID;
-  let response = await messagesAPI.getMessages(fetchTarget);
+  let response = await messagesAPI.getMessages(flag, disputeID);
   const fetchedMessages = [...response.data];
-
   if (response.status === 200) {
     thunkAPI.dispatch(setMessages({ fetchedMessages, flag }));
   }
   return response.status;
 });
+
+export const getLikesThunk = createAsyncThunk<
+  any,
+  any,
+  {
+    dispatch: AppDispatch;
+  }
+>(
+  "messages/getLikesThunk",
+  async ({ disputeID, messageID, userLogin }, thunkAPI) => {
+    let response = await messagesAPI.getLikes(disputeID, messageID, userLogin);
+
+    return response.data;
+  }
+);
 
 export const sendMessageThunk = createAsyncThunk<
   any,
@@ -95,7 +108,12 @@ export const updateMessageThunk = createAsyncThunk<
       textContainer,
       type
     );
-    // change response later
+
+    // if (response.additional === 1) {
+    //   additionalCb(`likeHeartActive`);
+    // } else {
+    //   additionalCb(`likeHeartInactive`);
+    // }
     if (response.changedRows === 1) {
       const wsConnection = new WebSocket(`ws://localhost:3008/`);
       const wsPayload = {

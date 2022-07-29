@@ -13,6 +13,11 @@ const initialState = {
       spec: false,
     },
     wsReadyStatus: "pending",
+    // Source for messages id.
+    flagSource: {
+      disputeChat: "dispute",
+      spectatorChat: "spec",
+    },
     // Backend, not for displaying
     dispute: [],
     spec: [],
@@ -21,10 +26,9 @@ const initialState = {
       dispute: [],
       spec: [],
     },
-    // Source for messages id.
-    flagSource: {
-      disputeChat: "dispute",
-      spectatorChat: "spec",
+    likeStyle: {
+      isNotLiked: `likeHeartInactive`,
+      isLiked: `likeHeartActive`,
     },
   },
   users: {

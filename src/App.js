@@ -12,7 +12,7 @@ import Profile from "./components/Profile";
 import CreateDispute from "./components/CreateDispute";
 import NewDisputeOptions from "./components/NewDisputeOptions";
 
-import "./styles/App.css";
+// import { styles } from "./styles/App.module.css";
 
 function App() {
   return (

@@ -7,6 +7,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { setCurrentDispute } from "../../store/reducers/disputesSlice";
 import { getCurrentDisputeThunk } from "../../store/reducers/disputesSliceThunk";
 
+import styles from "../../styles/App.module.css";
+
 const DebatesPage: React.FC<any> = (props) => {
   const dispatch = useAppDispatch();
   const location: any = useLocation();
@@ -20,7 +22,7 @@ const DebatesPage: React.FC<any> = (props) => {
   }, [disputeID]);
 
   return (
-    <div className="debates-window">
+    <div className={styles.debatesWindow}>
       <Participants />
       <Dispute disputeID={disputeID} />
       <Spectators disputeID={disputeID} />

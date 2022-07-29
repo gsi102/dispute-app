@@ -4,6 +4,8 @@ import SearchField from "./SearchField";
 import { searchUsersThunk } from "../store/reducers/usersSliceThunk";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
+import styles from "../styles/App.module.css";
+
 const CreateDispute: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -52,7 +54,7 @@ const CreateDispute: React.FC = () => {
           })}
         </div>
       ) : (
-        <div className="preloader"></div>
+        <div className={styles.preloader}></div>
       )}
     </div>
   );

@@ -5,6 +5,8 @@ import Input from "./UI/inputs/Input";
 import Button from "./UI/buttons/Button";
 import { signUpThunk } from "../store/reducers/usersSliceThunk";
 
+import styles from "../styles/App.module.css";
+
 const Registrarion: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -32,7 +34,7 @@ const Registrarion: React.FC = () => {
 
   return (
     <div
-      className="registration"
+      className={styles.registration}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -44,7 +46,6 @@ const Registrarion: React.FC = () => {
 
       <Input
         value={loginInput}
-        className="input-login"
         type="text"
         placeholder="create a login*"
         required
@@ -52,25 +53,21 @@ const Registrarion: React.FC = () => {
       />
       <Input
         value={emailInput}
-        className="input-email"
         type="email"
         placeholder="add an email"
         onChange={(e: any) => setEmailInput(e.target.value)}
       />
       <Input
         value={passwordInput}
-        className="input-password"
         type="password"
         placeholder="create a pass*"
         required
         onChange={(e: any) => setPasswordInput(e.target.value)}
       />
       {isLoading ? (
-        <div className="preloader" />
+        <div className={styles.preloader} />
       ) : (
-        <Button className="signup-button" onClick={signUp}>
-          Create
-        </Button>
+        <Button onClick={signUp}>Create</Button>
       )}
     </div>
   );

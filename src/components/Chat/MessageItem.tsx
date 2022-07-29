@@ -6,6 +6,7 @@ import { updateMessageThunk } from "../../store/reducers/messagesSliceThunk";
 
 import { MessageItemProps } from "../../types/types";
 import { useLocation } from "react-router-dom";
+import styles from "../../styles/App.module.css";
 
 const MessageItem: React.FC<MessageItemProps> = (props) => {
   let {
@@ -69,31 +70,35 @@ const MessageItem: React.FC<MessageItemProps> = (props) => {
   }
 
   return (
-    <div className="messageItem">
-      <div className="messageSender">{userLogin}</div>
-      <div className="message-name-and-text">
-        <div className="message-text">{messageBody}</div>
-      </div>
+    <div className={styles.messageItem}>
+      <div className={styles.messageSender}>{userLogin}</div>
+      <div className={styles.messageText}>{messageBody}</div>
       {likes !== null && !isDeleted && isAuth ? (
-        <Likes asyncRequestToServer={asyncRequestToServer} likes={likes} />
+        <Likes
+          asyncRequestToServer={asyncRequestToServer}
+          messageID={id}
+          disputeID={disputeID}
+          userLogin={currentUser}
+          likes={likes}
+        />
       ) : null}
-      <div className="messageActionsWrapper">
-        <div className="messageActions">
+      <div className={styles.messageActionsWrapper}>
+        <div className={styles.messageActions}>
           <div
-            className="delMessage"
+            className={styles.delMessage}
             onClick={() => asyncRequestToServer("delete")}
           >
             DEL
           </div>
           <div
-            className="retMessage"
+            className={styles.retMessage}
             onClick={() => asyncRequestToServer("return")}
           >
             Return
           </div>
         </div>
       </div>
-      <div className="messageTime">
+      <div className={styles.messageTime}>
         {dateHh}:{dateMm}
       </div>
     </div>

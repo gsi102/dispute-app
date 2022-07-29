@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { getAllDisputesThunk } from "../store/reducers/disputesSliceThunk";
 
+import styles from "../styles/App.module.css";
+
 const LeftSide: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -19,7 +21,7 @@ const LeftSide: React.FC = () => {
   };
 
   return (
-    <div className="leftside">
+    <div className={styles.leftside}>
       {/* <div onClick={redirect1}>Dispute1</div>
       <div onClick={redirect2}>Dispute2</div> */}
       <div>

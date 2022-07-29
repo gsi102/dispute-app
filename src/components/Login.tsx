@@ -6,6 +6,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { signInThunk } from "../store/reducers/usersSliceThunk";
 import { LocationType } from "../types/types";
+import styles from "../styles/App.module.css";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -39,24 +40,20 @@ const Login: React.FC = () => {
       <h1>Pass: 1</h1>
       <Input
         value={loginInput}
-        className="input-login"
         type="email"
         placeholder="email"
         onChange={(e: any) => setLoginInput(e.target.value)}
       />
       <Input
         value={passwordInput}
-        className="input-password"
         type="password"
         placeholder="pass"
         onChange={(e: any) => setPasswordInput(e.target.value)}
       />
       {isLoading ? (
-        <div className="preloader" />
+        <div className={styles.preloader} />
       ) : (
-        <Button className="login-button" onClick={logIn}>
-          Login
-        </Button>
+        <Button onClick={logIn}>Login</Button>
       )}
       <div>
         <h1>Not registered?</h1>

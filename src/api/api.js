@@ -6,9 +6,9 @@ const instance = axios.create({
 });
 
 export const messagesAPI = {
-  getMessages: (fetchTarget) => {
+  getMessages: (flag, disputeID) => {
     return instance
-      .get(`/messages/${fetchTarget}`)
+      .get(`/messages/${flag}/${disputeID}`)
       .then((response) => response);
   },
 
@@ -27,6 +27,15 @@ export const messagesAPI = {
         userID,
         userLogin,
         messageInput,
+      })
+      .then((response) => response);
+  },
+  getLikes: (disputeID, messageID, userLogin) => {
+    return instance
+      .post(`/getlikes/`, {
+        disputeID,
+        messageID,
+        userLogin,
       })
       .then((response) => response);
   },

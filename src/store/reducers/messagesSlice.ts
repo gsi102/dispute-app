@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction, current, isDraft } from "@reduxjs/toolkit";
 import {
   fetchedMessagesThunk,
+  getLikesThunk,
   sendMessageThunk,
   updateMessageThunk,
 } from "./messagesSliceThunk";
@@ -81,6 +82,7 @@ const messagesSlice = createSlice({
       state[flag].splice(index, 1, message);
       state.showMessages[flag] = [...state[flag]];
     },
+
     wsConnectionUpdate(state, action) {
       state.wsReadyStatus = action.payload.status;
     },
@@ -92,6 +94,7 @@ const messagesSlice = createSlice({
     });
     builder.addCase(sendMessageThunk.fulfilled, (state, action) => {});
     builder.addCase(updateMessageThunk.fulfilled, (state, action) => {});
+    builder.addCase(getLikesThunk.fulfilled, (state, action) => {});
   },
 });
 

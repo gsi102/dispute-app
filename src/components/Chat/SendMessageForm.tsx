@@ -5,6 +5,8 @@ import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { sendMessageThunk } from "../../store/reducers/messagesSliceThunk";
 import { FlagAsProps } from "../../types/types";
 
+import styles from "../../styles/App.module.css";
+
 const SendMessageForm: React.FC<any> = function(props) {
   const { flag, disputeID } = props;
   const [messageInput, setMessageInput] = useState<string>("");
@@ -36,22 +38,22 @@ const SendMessageForm: React.FC<any> = function(props) {
   };
 
   return (
-    <div className="sendMessageForm">
-      <span className="userLogin">{userLogin}:</span>
+    <div className={styles.sendMessageForm}>
+      <span className={styles.userLogin}>{userLogin}:</span>
       <Input
         value={messageInput}
         ref={inputRef}
-        className="input-chat-message"
+        className={styles.inputChatMessage}
         type="text"
         placeholder="your text"
         onChange={(e: any) => setMessageInput(e.target.value)}
         onKeyDown={(e: any) => (e.key === "Enter" ? funcQueue() : "")}
       />
       {isLoading || wsReadyStatus !== "ready" ? (
-        <div className="preloader"></div>
+        <div className={styles.preloader}></div>
       ) : (
         <Button
-          className="send-message-btn"
+          className={styles.sendMessageBtn}
           disabled={wsReadyStatus !== "ready"}
           onClick={funcQueue}
         >

@@ -1,8 +1,10 @@
 import React from "react";
 
+import styles from "../styles/App.module.css";
+
 const HomePage: React.FC = () => {
   return (
-    <div className="homePage">
+    <div className={styles.homePage}>
       <h1>Getting Started with Dispute App</h1>
       <p>
         It's an app for practice in React Development. Main idea -
